@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML: Formularios</title>
+    <style>
+        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
+        body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; line-height:1.6; }
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
+        h1 { color:var(--primary); margin-top:0; }
+        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
+        .section { margin-top:16px; }
+        ul { padding-left:22px; color:var(--muted); }
+        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+        .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="breadcrumb"><a href="../Programa.html">← Volver al programa</a></div>
+        <h1>Formularios básicos</h1>
+        <p>Reúne datos de tus usuarios con campos accesibles y etiquetas claras.</p>
+
+        <div class="section">
+            <h3>Campos esenciales</h3>
+            <ul>
+                <li><strong>&lt;label for&gt;</strong> conecta el texto con el <strong>id</strong> del input.</li>
+                <li>Inputs comunes: <code>text</code>, <code>email</code>, <code>password</code>, <code>number</code> y botones <code>button</code> o <code>submit</code>.</li>
+                <li>Agrupa todo dentro de <strong>&lt;form action="" method="post"&gt;</strong> para enviar la información.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>Accesibilidad rápida</h3>
+            <p>Incluye textos descriptivos, placeholders útiles y prueba con teclado: tabulador para saltar entre campos y enter para enviar.</p>
+        </div>
+
+        <div class="nav-links">
+            <a href="html-enlaces-imagenes.html">← Anterior: Enlaces e imágenes</a>
+            <a href="html-semantica.html">Siguiente: HTML semántico →</a>
+        </div>
+    </div>
+</body>
+</html>

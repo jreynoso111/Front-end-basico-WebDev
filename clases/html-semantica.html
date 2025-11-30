@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML: Semántica</title>
+    <style>
+        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
+        body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; line-height:1.6; }
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
+        h1 { color:var(--primary); margin-top:0; }
+        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
+        .section { margin-top:16px; }
+        ul { padding-left:22px; color:var(--muted); }
+        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+        .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="breadcrumb"><a href="../Programa.html">← Volver al programa</a></div>
+        <h1>HTML semántico</h1>
+        <p>Usa etiquetas que describen el propósito del contenido y facilitan la accesibilidad.</p>
+
+        <div class="section">
+            <h3>Bloques esenciales</h3>
+            <ul>
+                <li><strong>&lt;header&gt;</strong> para la cabecera y navegación principal.</li>
+                <li><strong>&lt;nav&gt;</strong> agrupa enlaces de navegación.</li>
+                <li><strong>&lt;main&gt;</strong> contiene el contenido principal de la página.</li>
+                <li><strong>&lt;section&gt;</strong> y <strong>&lt;article&gt;</strong> dividen el contenido por temas.</li>
+                <li><strong>&lt;footer&gt;</strong> cierra con créditos, enlaces secundarios o contacto.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>Ejercicio</h3>
+            <p>Rediseña una página simple reemplazando divs genéricos por etiquetas semánticas. Usa un lector de pantalla para confirmar que la estructura es más clara.</p>
+        </div>
+
+        <div class="nav-links">
+            <a href="html-formularios.html">← Anterior: Formularios</a>
+            <a href="css-selectores.html">Siguiente: CSS Selectores →</a>
+        </div>
+    </div>
+</body>
+</html>

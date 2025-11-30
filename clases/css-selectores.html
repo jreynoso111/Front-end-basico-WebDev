@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS: Selectores</title>
+    <style>
+        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
+        body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; line-height:1.6; }
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
+        h1 { color:var(--primary); margin-top:0; }
+        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
+        .section { margin-top:16px; }
+        ul { padding-left:22px; color:var(--muted); }
+        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+        .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="breadcrumb"><a href="../Programa.html">← Volver al programa</a></div>
+        <h1>Sintaxis y selectores</h1>
+        <p>Aprende a apuntar elementos con precisión usando clases, IDs y selectores combinados.</p>
+
+        <div class="section">
+            <h3>Claves rápidas</h3>
+            <ul>
+                <li>Prefiere <strong>clases</strong> para reutilizar estilos, usa <strong>ID</strong> solo para elementos únicos.</li>
+                <li>Combina selectores: <code>.card p</code> selecciona párrafos dentro de .card; <code>button.primary</code> un botón con clase <em>primary</em>.</li>
+                <li>La especificidad importa: inline &gt; ID &gt; clase &gt; elemento.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>Práctica</h3>
+            <p>Estiliza una tarjeta con fondo blanco y texto gris, y agrega un botón azul usando clases.</p>
+        </div>
+
+        <div class="nav-links">
+            <a href="html-semantica.html">← Anterior: HTML semántico</a>
+            <a href="css-colores-tipografia.html">Siguiente: Colores y tipografía →</a>
+        </div>
+    </div>
+</body>
+</html>
