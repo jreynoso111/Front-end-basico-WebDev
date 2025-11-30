@@ -3,43 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JavaScript: DOM</title>
+    <title>JS: El DOM</title>
     <style>
-        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
+        /* --- ESTILOS BASE --- */
+        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; --code-bg: #1e293b; }
+        
         body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; line-height:1.6; }
-        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
-        h1 { color:var(--primary); margin-top:0; }
-        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
-        .section { margin-top:16px; }
-        ul { padding-left:22px; color:var(--muted); }
-        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+        
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:30px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
+        
+        h1 { color:var(--primary); margin-top:0; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+        h2 { font-size: 1.2rem; margin-top: 30px; color: #334155; }
+        
+        .breadcrumb a { text-decoration:none; color:#94a3b8; font-size: 0.9rem; font-weight:600; }
+        .breadcrumb a:hover { color: var(--primary); }
+
+        /* --- LABORATORIO DOM --- */
+        .lab-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+        }
+
+        @media (max-width: 600px) { .lab-container { grid-template-columns: 1fr; } }
+
+        /* EL SUJETO DE PRUEBA (HTML) */
+        .subject-area {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #e2e8f0;
+            position: relative;
+        }
+        
+        /* Etiqueta flotante */
+        .html-tag {
+            position: absolute; top: 10px; left: 10px;
+            background: #e2e8f0; color: #64748b;
+            padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.8rem;
+        }
+
+        /* El elemento que vamos a modificar */
+        #caja-demo {
+            width: 150px;
+            height: 150px;
+            background-color: #3b82f6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 8px; /* Default */
+            transition: all 0.3s ease;
+        }
+
+        /* Clase CSS para probar classList */
+        .circulo-magico {
+            border-radius: 50% !important;
+            background-color: #8b5cf6 !important; /* Morado */
+            box-shadow: 0 0 20px #8b5cf6;
+            transform: rotate(360deg);
+        }
+
+        /* PANEL DE CONTROL (JS) */
+        .control-panel {
+            display: flex; flex-direction: column; gap: 10px;
+        }
+
+        .btn-action {
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: left;
+            font-family: monospace;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .btn-action:hover { border-color: var(--primary); color: var(--primary); background: #eff6ff; }
+        .btn-action span { font-family: sans-serif; color: #64748b; font-size: 0.8rem; }
+
+        /* CONSOLA VISUAL */
+        .console-log {
+            grid-column: 1 / -1;
+            background: var(--code-bg);
+            color: #bef264;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            min-height: 60px;
+            display: flex; align-items: center;
+        }
+        .cursor { display: inline-block; width: 8px; height: 15px; background: #bef264; animation: blink 1s infinite; margin-left: 5px; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:40px; padding-top: 20px; border-top: 1px solid var(--border); }
         .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
     </style>
 </head>
 <body>
     <div class="card">
         <div class="breadcrumb"><a href="../index.html">← Volver al programa</a></div>
-        <h1>DOM: selecciona y modifica elementos</h1>
-        <p>Conecta JavaScript con el HTML para leer y actualizar la interfaz.</p>
+        
+        <h1>JavaScript: El DOM (Manipulación)</h1>
+        <p>El <strong>DOM</strong> (Document Object Model) es la herramienta que te permite "agarrar" elementos HTML y cambiarlos sin recargar la página.</p>
 
         <div class="section">
-            <h3>Selección</h3>
+            <h2>Laboratorio de Mutación</h2>
+            <p>Haz clic en los códigos de la derecha para ejecutar JavaScript en la caja de la izquierda.</p>
+
+            <div class="lab-container">
+                
+                <div class="subject-area">
+                    <div class="html-tag">&lt;div id="caja"&gt;</div>
+                    <div id="caja-demo">Hola</div>
+                </div>
+
+                <div class="control-panel">
+                    <button class="btn-action" onclick="seleccionar()">
+                        const el = document.querySelector('#caja')
+                        <span>1. Seleccionar</span>
+                    </button>
+
+                    <button class="btn-action" onclick="cambiarTexto()">
+                        el.textContent = "¡Mutación!"
+                        <span>2. Cambiar Texto</span>
+                    </button>
+
+                    <button class="btn-action" onclick="cambiarEstilo()">
+                        el.style.backgroundColor = "tomato"
+                        <span>3. Pintar Rojo</span>
+                    </button>
+
+                    <button class="btn-action" onclick="toggleClase()">
+                        el.classList.toggle('circulo-magico')
+                        <span>4. Alternar Clase CSS</span>
+                    </button>
+                </div>
+
+                <div class="console-log">
+                    <span style="color:#64748b; margin-right:10px;">></span>
+                    <span id="log-text">Esperando instrucciones...</span>
+                    <div class="cursor"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Explicación de los Métodos</h3>
             <ul>
-                <li><code>document.querySelector('.clase')</code> devuelve el primer elemento que coincide.</li>
-                <li><code>document.querySelectorAll('p')</code> devuelve una NodeList iterable.</li>
-                <li>Guarda las referencias en variables para reutilizarlas y mejorar el rendimiento.</li>
+                <li><strong>querySelector('#id')</strong>: Es como un gancho. Busca en el HTML y "pesca" el primer elemento que coincida.</li>
+                <li><strong>textContent</strong>: Permite leer o sobrescribir el texto que vive dentro de la etiqueta.</li>
+                <li><strong>style.propiedad</strong>: Modifica el CSS en línea. (Nota: usa CamelCase, ej: <code>backgroundColor</code> en vez de <code>background-color</code>).</li>
+                <li><strong>classList.toggle()</strong>: Es un interruptor. Si la clase existe, la quita; si no existe, la pone. Es ideal para menús y modos oscuros.</li>
             </ul>
         </div>
 
-        <div class="section">
-            <h3>Manipulación</h3>
-            <p>Cambia textos con <code>element.textContent</code>, clases con <code>classList.add()</code> y atributos con <code>setAttribute()</code>.</p>
-        </div>
-
         <div class="nav-links">
-            <a href="js-funciones-condicionales.html">← Anterior: Funciones y condicionales</a>
+            <a href="js-funciones-condicionales.html">← Anterior: Funciones</a>
             <a href="js-eventos.html">Siguiente: Eventos →</a>
         </div>
     </div>
+
+    <script>
+        // 1. PRIMER PASO: Crear la referencia (Variable global para el ejemplo)
+        // En una app real, esto iría dentro de la función o al inicio del script.
+        const elemento = document.getElementById('caja-demo');
+        const consola = document.getElementById('log-text');
+
+        function seleccionar() {
+            // Efecto visual para mostrar que fue seleccionado
+            elemento.style.outline = "4px solid #bef264";
+            elemento.style.outlineOffset = "4px";
+            
+            escribirLog('Elemento capturado en memoria. Variable "el" lista.');
+            
+            // Quitar el outline después de un segundo
+            setTimeout(() => {
+                elemento.style.outline = "none";
+            }, 1000);
+        }
+
+        function cambiarTexto() {
+            // Acción Real
+            elemento.textContent = "¡Mutación!";
+            escribirLog('Texto actualizado a "¡Mutación!"');
+        }
+
+        function cambiarEstilo() {
+            // Acción Real
+            elemento.style.backgroundColor = "tomato";
+            elemento.textContent = "Soy Rojo";
+            escribirLog('Estilo en línea aplicado: background-color: tomato');
+        }
+
+        function toggleClase() {
+            // Acción Real
+            const tieneClase = elemento.classList.toggle('circulo-magico');
+            
+            if(tieneClase) {
+                elemento.textContent = "CSS Class";
+                escribirLog('Clase ".circulo-magico" AGREGADA.');
+            } else {
+                elemento.textContent = "Hola";
+                // Reseteamos el color manual si estaba en tomato para que se note
+                elemento.style.backgroundColor = ""; 
+                escribirLog('Clase ".circulo-magico" REMOVIDA.');
+            }
+        }
+
+        function escribirLog(texto) {
+            consola.innerText = texto;
+            // Pequeña animación de parpadeo
+            consola.style.opacity = 0.5;
+            setTimeout(() => consola.style.opacity = 1, 100);
+        }
+    </script>
 </body>
 </html>
