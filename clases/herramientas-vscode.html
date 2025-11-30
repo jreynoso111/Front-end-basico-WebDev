@@ -3,43 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VS Code para front-end</title>
+    <title>Herramientas: VS Code</title>
     <style>
-        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
+        /* --- ESTILOS BASE --- */
+        :root { --primary:#007acc; /* VS Code Blue */ --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; --code-bg: #1e1e1e; }
+        
         body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; line-height:1.6; }
-        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
-        h1 { color:var(--primary); margin-top:0; }
-        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
-        .section { margin-top:16px; }
-        ul { padding-left:22px; color:var(--muted); }
-        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+        
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:30px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
+        
+        h1 { color:var(--primary); margin-top:0; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+        h2 { font-size: 1.2rem; margin-top: 30px; color: #334155; }
+        
+        .breadcrumb a { text-decoration:none; color:#94a3b8; font-size: 0.9rem; font-weight:600; }
+        .breadcrumb a:hover { color: var(--primary); }
+
+        /* --- SIMULADOR VS CODE --- */
+        .vscode-window {
+            background: #1e1e1e; /* Color oficial Dark Mode */
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            margin-top: 20px;
+            border: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+        }
+
+        /* Barra de Título */
+        .vs-titlebar {
+            background: #333; color: #ccc; padding: 5px 15px; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; position: relative;
+        }
+        .vs-dots { position: absolute; left: 10px; display: flex; gap: 6px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: #666; }
+        .dot.r { background: #ff5f56; } .dot.y { background: #ffbd2e; } .dot.g { background: #27c93f; }
+
+        /* Cuerpo del Editor */
+        .vs-body { display: flex; flex: 1; overflow: hidden; }
+
+        /* Barra Lateral (Iconos) */
+        .vs-activity-bar {
+            width: 50px; background: #333; display: flex; flex-direction: column; align-items: center; padding-top: 10px; gap: 20px;
+        }
+        .icon { font-size: 1.2rem; color: #858585; cursor: pointer; }
+        .icon:hover { color: white; }
+        .icon.active { color: white; border-left: 2px solid white; }
+
+        /* Explorador de Archivos */
+        .vs-sidebar {
+            width: 150px; background: #252526; color: #ccc; font-size: 0.85rem; padding: 10px; border-right: 1px solid #1e1e1e;
+        }
+        .file-tree div { padding: 4px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .file-tree div:hover { background: #2a2d2e; }
+        .file-active { background: #37373d !important; }
+
+        /* Área de Código y Preview */
+        .vs-editor-area { flex: 1; display: grid; grid-template-columns: 1fr 1fr; }
+
+        /* Editor de Texto */
+        .code-input-wrapper { position: relative; background: #1e1e1e; border-right: 1px solid #333; }
+        
+        textarea {
+            width: 100%; height: 100%;
+            background: #1e1e1e; color: #d4d4d4;
+            border: none; padding: 20px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px; line-height: 1.5;
+            resize: none; outline: none;
+        }
+
+        /* Live Preview (Simulador de navegador) */
+        .live-preview {
+            background: white; color: black; padding: 20px; overflow-y: auto;
+        }
+        .browser-bar {
+            background: #f0f0f0; padding: 5px 10px; font-size: 0.8rem; color: #666; border-bottom: 1px solid #ccc;
+        }
+
+        /* Barra de Estado (Abajo) */
+        .vs-statusbar {
+            background: #007acc; color: white; padding: 2px 10px; font-size: 0.75rem; display: flex; justify-content: space-between;
+        }
+
+        /* Botones de Funciones Mágicas */
+        .magic-controls {
+            padding: 15px; background: #f1f5f9; border-radius: 8px; margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;
+        }
+        .magic-btn {
+            background: white; border: 1px solid #ccc; padding: 8px 15px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 0.9rem; transition: all 0.2s;
+        }
+        .magic-btn:hover { background: #e0f2fe; border-color: var(--primary); color: var(--primary); }
+        .magic-btn span { font-size: 1.2rem; }
+
+        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:40px; padding-top: 20px; border-top: 1px solid var(--border); }
         .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
     </style>
 </head>
 <body>
     <div class="card">
         <div class="breadcrumb"><a href="../index.html">← Volver al programa</a></div>
-        <h1>Editor VS Code</h1>
-        <p>Configura un entorno cómodo y productivo para desarrollar front-end.</p>
+        
+        <h1>Editor: VS Code</h1>
+        <p>VS Code no es solo un bloc de notas; es un entorno de desarrollo. Su poder radica en las <strong>Extensiones</strong>.</p>
 
         <div class="section">
-            <h3>Instalación y ajustes</h3>
+            <h2>1. Prueba las "Extensiones" aquí mismo</h2>
+            <p>Antes de instalar nada, entiende por qué las necesitamos con este simulador.</p>
+
+            <div class="magic-controls">
+                <button class="magic-btn" onclick="simulatePrettier()">
+                    <span>✨</span> Prettier (Formatear)
+                </button>
+                <button class="magic-btn" onclick="simulateEmmet()">
+                    <span>⚡</span> Emmet (Atajos)
+                </button>
+                <div style="flex-grow:1"></div>
+                <small style="align-self:center; color:#64748b;">Edita el código negro y mira la derecha ⮕</small>
+            </div>
+
+            <div class="vscode-window">
+                <div class="vs-titlebar">
+                    <div class="vs-dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+                    index.html - Visual Studio Code
+                </div>
+                
+                <div class="vs-body">
+                    <div class="vs-activity-bar">
+                        <div class="icon active">📂</div>
+                        <div class="icon">🔍</div>
+                        <div class="icon">🧩</div>
+                    </div>
+                    
+                    <div class="vs-sidebar">
+                        <div style="margin-bottom:10px; font-weight:bold; font-size:0.7rem;">EXPLORADOR</div>
+                        <div class="file-tree">
+                            <div class="file-active">📄 index.html</div>
+                            <div>🎨 style.css</div>
+                            <div>📜 script.js</div>
+                        </div>
+                    </div>
+
+                    <div class="vs-editor-area">
+                        <div class="code-input-wrapper">
+                            <textarea id="codeEditor" oninput="updateLiveServer()" spellcheck="false">
+<h1>Hola Mundo</h1>
+    <p>    ¡Este código está desordenado!    </p>
+<button>Haz click</button>
+                            </textarea>
+                        </div>
+                        
+                        <div class="live-preview">
+                            <div class="browser-bar">🌐 127.0.0.1:5500/index.html</div>
+                            <div id="liveOutput">
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vs-statusbar">
+                    <div>main*</div>
+                    <div>Live Server: On 🟢</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Lo que acabas de ver:</h3>
             <ul>
-                <li>Descarga VS Code desde <a href="https://code.visualstudio.com/" target="_blank" rel="noopener noreferrer">su web oficial</a>.</li>
-                <li>Activa <strong>Autosave</strong> y <strong>Format on Save</strong> en Configuración.</li>
-                <li>Extensiones sugeridas: Live Server, ESLint, Prettier, IntelliSense para HTML/CSS.</li>
+                <li><strong>Live Server:</strong> ¿Viste que al escribir en el cuadro negro, la parte blanca se actualizaba sola? Eso hace esta extensión. Te ahorra dar "Recargar" mil veces.</li>
+                <li><strong>Prettier:</strong> Si presionaste el botón "✨ Formatear", viste cómo el código desordenado se arregló solo. VS Code lo hace automáticamente al guardar.</li>
+                <li><strong>Emmet:</strong> Permite escribir <code>ul>li*3</code> y presionar Tab para crear listas complejas en un segundo.</li>
             </ul>
         </div>
 
-        <div class="section">
-            <h3>Práctica</h3>
-            <p>Abre este proyecto en VS Code, instala Live Server y visualiza <code>index.html</code> para navegar tu plan.</p>
+        <div class="section" style="background:#f0f9ff; border-left:4px solid var(--primary); padding:15px;">
+            <h3>🚀 Tu Misión</h3>
+            <ol>
+                <li>Descarga <a href="https://code.visualstudio.com/" target="_blank">VS Code</a> e instálalo.</li>
+                <li>Ve a la pestaña de extensiones (el icono del cuadrado tipo Tetris).</li>
+                <li>Busca e instala: <strong>Live Server</strong> y <strong>Prettier</strong>.</li>
+            </ol>
         </div>
 
         <div class="nav-links">
-            <a href="js-eventos.html">← Anterior: Eventos</a>
-            <a href="herramientas-git.html">Siguiente: Git básico →</a>
+            <a href="js-eventos.html">← Anterior: JS Eventos</a>
+            <a href="git-basico.html">Siguiente: Git Básico →</a>
         </div>
     </div>
+
+    <script>
+        // Inicializar Live Server simulado
+        function updateLiveServer() {
+            const code = document.getElementById('codeEditor').value;
+            document.getElementById('liveOutput').innerHTML = code;
+        }
+
+        // Simular Prettier
+        function simulatePrettier() {
+            const editor = document.getElementById('codeEditor');
+            // Código limpio hardcodeado para el efecto demo
+            const cleanCode = 
+`<h1>Hola Mundo</h1>
+<p>
+  ¡Este código está desordenado!
+</p>
+<button>Haz click</button>`;
+            
+            editor.value = cleanCode;
+            updateLiveServer();
+            alert("✨ ¡Prettier ha ordenado tu código automáticamente!");
+        }
+
+        // Simular Emmet
+        function simulateEmmet() {
+            const editor = document.getElementById('codeEditor');
+            const current = editor.value;
+            
+            // Añadir al final un ejemplo de emmet
+            const emmetExample = `\n\n<ul>\n  <li>Elemento 1</li>\n  <li>Elemento 2</li>\n  <li>Elemento 3</li>\n</ul>`;
+            
+            editor.value = current + emmetExample;
+            updateLiveServer();
+        }
+
+        // Carga inicial
+        updateLiveServer();
+    </script>
 </body>
 </html>
