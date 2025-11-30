@@ -5,35 +5,131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTML: Formularios</title>
     <style>
-        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
-        body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; line-height:1.6; }
-        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
-        h1 { color:var(--primary); margin-top:0; }
-        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
-        .section { margin-top:16px; }
-        ul { padding-left:22px; color:var(--muted); }
-        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
-        .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
+        :root { --primary: #2563eb; --bg: #f8fafc; --card: #fff; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; }
+        
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 22px; line-height: 1.6; }
+        
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 30px; max-width: 900px; margin: 0 auto; box-shadow: 0 8px 18px rgba(15,23,42,0.08); }
+        
+        h1 { color: var(--primary); margin-top: 0; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+        h3 { margin-top: 25px; color: #334155; }
+        
+        .breadcrumb a, .nav-links a { text-decoration: none; color: #0ea5e9; font-weight: 700; transition: color 0.2s; }
+        .breadcrumb a:hover, .nav-links a:hover { color: var(--primary); }
+        
+        /* Estilos específicos para la DEMO del formulario */
+        .demo-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .visual-demo, .code-demo { flex: 1; min-width: 300px; }
+        
+        /* Estilos de los inputs para que se vean modernos */
+        form { background: white; padding: 20px; border-radius: 8px; border: 1px solid #cbd5e1; }
+        
+        .form-group { margin-bottom: 15px; }
+        
+        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
+        
+        input { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 6px; 
+            box-sizing: border-box; /* Importante para que el padding no rompa el ancho */
+        }
+        
+        input:focus { outline: 2px solid var(--primary); border-color: transparent; }
+        
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+        }
+        button:hover { opacity: 0.9; }
+
+        /* Estilo para mostrar código */
+        pre { background: #1e293b; color: #e2e8f0; padding: 15px; border-radius: 8px; overflow-x: auto; font-size: 0.85rem; }
+        code { font-family: 'Consolas', monospace; }
+
+        .nav-links { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
     </style>
 </head>
 <body>
     <div class="card">
         <div class="breadcrumb"><a href="../index.html">← Volver al programa</a></div>
+        
         <h1>Formularios básicos</h1>
-        <p>Reúne datos de tus usuarios con campos accesibles y etiquetas claras.</p>
+        <p>Los formularios permiten a los usuarios enviarte datos. Son la base de cualquier inicio de sesión, búsqueda o contacto.</p>
 
         <div class="section">
-            <h3>Campos esenciales</h3>
+            <h3>Conceptos Clave</h3>
             <ul>
-                <li><strong>&lt;label for&gt;</strong> conecta el texto con el <strong>id</strong> del input.</li>
-                <li>Inputs comunes: <code>text</code>, <code>email</code>, <code>password</code>, <code>number</code> y botones <code>button</code> o <code>submit</code>.</li>
-                <li>Agrupa todo dentro de <strong>&lt;form action="" method="post"&gt;</strong> para enviar la información.</li>
+                <li><strong>&lt;form&gt;</strong>: Envuelve todos los campos. Define a dónde se envían los datos (<code>action</code>).</li>
+                <li><strong>&lt;label&gt;</strong>: La etiqueta de texto. El atributo <code>for</code> debe coincidir con el <code>id</code> del input. <em>(Haz la prueba: Si haces clic en el texto "Correo electrónico" abajo, el cursor saltará al campo).</em></li>
+                <li><strong>&lt;input&gt;</strong>: El campo real. El atributo <code>type</code> cambia cómo se comportan (texto, password, email).</li>
+                <li><strong>Atributo 'name'</strong>: Es invisible para el usuario, pero vital para que el servidor sepa qué dato es cuál.</li>
             </ul>
         </div>
 
-        <div class="section">
-            <h3>Accesibilidad rápida</h3>
-            <p>Incluye textos descriptivos, placeholders útiles y prueba con teclado: tabulador para saltar entre campos y enter para enviar.</p>
+        <h3>💻 Práctica: Código vs. Resultado Real</h3>
+        <div class="demo-container">
+            
+            <div class="code-demo">
+                <strong>El Código HTML:</strong>
+<pre><code>&lt;form action="#"&gt;
+  &lt;div class="form-group"&gt;
+    &lt;label for="nombre"&gt;Nombre:&lt;/label&gt;
+    &lt;input type="text" id="nombre" name="user_name" placeholder="Tu nombre..."&gt;
+  &lt;/div&gt;
+
+  &lt;div class="form-group"&gt;
+    &lt;label for="email"&gt;Correo electrónico:&lt;/label&gt;
+    &lt;input type="email" id="email" name="user_email" required&gt;
+  &lt;/div&gt;
+
+  &lt;div class="form-group"&gt;
+    &lt;label for="pass"&gt;Contraseña:&lt;/label&gt;
+    &lt;input type="password" id="pass" name="user_pass"&gt;
+  &lt;/div&gt;
+
+  &lt;button type="submit"&gt;Registrarme&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+            </div>
+
+            <div class="visual-demo">
+                <strong>Cómo se ve en el navegador:</strong>
+                <form onsubmit="alert('¡Formulario enviado! (Esto es una simulación)'); return false;">
+                    <div class="form-group">
+                        <label for="demo-nombre">Nombre:</label>
+                        <input type="text" id="demo-nombre" placeholder="Ej: Juan Pérez">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="demo-email">Correo electrónico:</label>
+                        <input type="email" id="demo-email" placeholder="nombre@ejemplo.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="demo-pass">Contraseña:</label>
+                        <input type="password" id="demo-pass" placeholder="••••••••">
+                    </div>
+
+                    <button type="submit">Registrarme</button>
+                </form>
+                <p style="font-size: 0.8rem; color: #64748b; margin-top: 10px;">*Intenta enviar el formulario sin poner un email para ver la validación automática.</p>
+            </div>
         </div>
 
         <div class="nav-links">
