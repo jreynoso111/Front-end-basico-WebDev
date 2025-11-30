@@ -2,140 +2,75 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML: Formularios</title>
+    <title>Clase: Entendiendo Formularios</title>
     <style>
-        :root { --primary: #2563eb; --bg: #f8fafc; --card: #fff; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; }
+        body { font-family: sans-serif; padding: 40px; background-color: #f4f4f4; }
         
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 22px; line-height: 1.6; }
-        
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 30px; max-width: 900px; margin: 0 auto; box-shadow: 0 8px 18px rgba(15,23,42,0.08); }
-        
-        h1 { color: var(--primary); margin-top: 0; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
-        h3 { margin-top: 25px; color: #334155; }
-        
-        .breadcrumb a, .nav-links a { text-decoration: none; color: #0ea5e9; font-weight: 700; transition: color 0.2s; }
-        .breadcrumb a:hover, .nav-links a:hover { color: var(--primary); }
-        
-        /* Estilos específicos para la DEMO del formulario */
-        .demo-container {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            background: #f1f5f9;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 15px;
+        /* Esta caja blanca es solo para que se vea ordenado */
+        .contenedor-formulario {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        .visual-demo, .code-demo { flex: 1; min-width: 300px; }
+        /* Estilo simple para separar las preguntas */
+        .pregunta { margin-bottom: 20px; }
         
-        /* Estilos de los inputs para que se vean modernos */
-        form { background: white; padding: 20px; border-radius: 8px; border: 1px solid #cbd5e1; }
+        /* Hacemos que el label esté encima del input */
+        label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
         
-        .form-group { margin-bottom: 15px; }
-        
-        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
-        
-        input { 
-            width: 100%; 
-            padding: 10px; 
-            border: 1px solid #cbd5e1; 
-            border-radius: 6px; 
-            box-sizing: border-box; /* Importante para que el padding no rompa el ancho */
-        }
-        
-        input:focus { outline: 2px solid var(--primary); border-color: transparent; }
-        
+        /* Hacemos que el input sea grande y cómodo */
+        input { width: 100%; padding: 10px; box-sizing: border-box; }
+
+        /* Botón llamativo */
         button {
-            background-color: var(--primary);
+            width: 100%;
+            padding: 10px;
+            background-color: #2563eb;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
             cursor: pointer;
-            font-weight: bold;
-            width: 100%;
+            font-size: 16px;
         }
-        button:hover { opacity: 0.9; }
-
-        /* Estilo para mostrar código */
-        pre { background: #1e293b; color: #e2e8f0; padding: 15px; border-radius: 8px; overflow-x: auto; font-size: 0.85rem; }
-        code { font-family: 'Consolas', monospace; }
-
-        .nav-links { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+        button:hover { background-color: #1d4ed8; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="breadcrumb"><a href="../index.html">← Volver al programa</a></div>
+
+    <div class="contenedor-formulario">
+        <h2>Registro de Usuario</h2>
         
-        <h1>Formularios básicos</h1>
-        <p>Los formularios permiten a los usuarios enviarte datos. Son la base de cualquier inicio de sesión, búsqueda o contacto.</p>
+        <form action="#">
 
-        <div class="section">
-            <h3>Conceptos Clave</h3>
-            <ul>
-                <li><strong>&lt;form&gt;</strong>: Envuelve todos los campos. Define a dónde se envían los datos (<code>action</code>).</li>
-                <li><strong>&lt;label&gt;</strong>: La etiqueta de texto. El atributo <code>for</code> debe coincidir con el <code>id</code> del input. <em>(Haz la prueba: Si haces clic en el texto "Correo electrónico" abajo, el cursor saltará al campo).</em></li>
-                <li><strong>&lt;input&gt;</strong>: El campo real. El atributo <code>type</code> cambia cómo se comportan (texto, password, email).</li>
-                <li><strong>Atributo 'name'</strong>: Es invisible para el usuario, pero vital para que el servidor sepa qué dato es cuál.</li>
-            </ul>
-        </div>
-
-        <h3>💻 Práctica: Código vs. Resultado Real</h3>
-        <div class="demo-container">
-            
-            <div class="code-demo">
-                <strong>El Código HTML:</strong>
-<pre><code>&lt;form action="#"&gt;
-  &lt;div class="form-group"&gt;
-    &lt;label for="nombre"&gt;Nombre:&lt;/label&gt;
-    &lt;input type="text" id="nombre" name="user_name" placeholder="Tu nombre..."&gt;
-  &lt;/div&gt;
-
-  &lt;div class="form-group"&gt;
-    &lt;label for="email"&gt;Correo electrónico:&lt;/label&gt;
-    &lt;input type="email" id="email" name="user_email" required&gt;
-  &lt;/div&gt;
-
-  &lt;div class="form-group"&gt;
-    &lt;label for="pass"&gt;Contraseña:&lt;/label&gt;
-    &lt;input type="password" id="pass" name="user_pass"&gt;
-  &lt;/div&gt;
-
-  &lt;button type="submit"&gt;Registrarme&lt;/button&gt;
-&lt;/form&gt;</code></pre>
+            <div class="pregunta">
+                <label for="campo-nombre">¿Cómo te llamas?</label>
+                
+                <input type="text" id="campo-nombre" name="nombre_usuario" placeholder="Ej: Ana Pérez">
             </div>
 
-            <div class="visual-demo">
-                <strong>Cómo se ve en el navegador:</strong>
-                <form onsubmit="alert('¡Formulario enviado! (Esto es una simulación)'); return false;">
-                    <div class="form-group">
-                        <label for="demo-nombre">Nombre:</label>
-                        <input type="text" id="demo-nombre" placeholder="Ej: Juan Pérez">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="demo-email">Correo electrónico:</label>
-                        <input type="email" id="demo-email" placeholder="nombre@ejemplo.com" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="demo-pass">Contraseña:</label>
-                        <input type="password" id="demo-pass" placeholder="••••••••">
-                    </div>
-
-                    <button type="submit">Registrarme</button>
-                </form>
-                <p style="font-size: 0.8rem; color: #64748b; margin-top: 10px;">*Intenta enviar el formulario sin poner un email para ver la validación automática.</p>
+            <div class="pregunta">
+                <label for="campo-email">Tu correo electrónico:</label>
+                
+                <input type="email" id="campo-email" name="email_usuario" placeholder="ana@ejemplo.com">
             </div>
-        </div>
 
-        <div class="nav-links">
-            <a href="html-enlaces-imagenes.html">← Anterior: Enlaces e imágenes</a>
-            <a href="html-semantica.html">Siguiente: HTML semántico →</a>
-        </div>
+            <div class="pregunta">
+                <label for="campo-pass">Crea una contraseña:</label>
+                
+                <input type="password" id="campo-pass" name="clave_secreta">
+            </div>
+
+            <button type="submit">Crear mi cuenta</button>
+
+        </form>
     </div>
+
+    <p style="text-align: center; margin-top: 20px;">
+        <a href="../index.html">← Volver a mi Mapa de Progreso</a>
+    </p>
+
 </body>
 </html>
