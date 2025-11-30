@@ -3,53 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML: Textos y listas</title>
+    <title>HTML: Textos y Listas</title>
     <style>
-        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
+        /* --- ESTILOS GENERALES --- */
+        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; --code-bg: #1e293b; }
+        
         body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; line-height:1.6; }
-        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
-        h1 { color:var(--primary); margin-top:0; }
-        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
-        .section { margin-top:16px; }
-        ul { padding-left:22px; color:var(--muted); }
-        .example { background:#f1f5f9; border:1px solid var(--border); border-radius:10px; padding:12px; }
-        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+        
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:30px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
+        
+        h1 { color:var(--primary); margin-top:0; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+        h2 { font-size: 1.2rem; margin-top: 30px; color: #334155; display: flex; align-items: center; gap: 10px; }
+        
+        .breadcrumb a { text-decoration:none; color:#94a3b8; font-size: 0.9rem; font-weight:600; }
+        .breadcrumb a:hover { color: var(--primary); }
+
+        /* --- VISUALIZACIÓN DE JERARQUÍA --- */
+        .hierarchy-demo h1, .hierarchy-demo h2, .hierarchy-demo h3 { margin: 5px 0; border: 1px dashed #cbd5e1; padding: 5px; border-radius: 4px; }
+        .hierarchy-demo h1 { background: #eff6ff; color: #1e40af; font-size: 1.5rem; }
+        .hierarchy-demo h2 { background: #f0fdf4; color: #166534; font-size: 1.25rem; margin-left: 20px; }
+        .hierarchy-demo h3 { background: #fefce8; color: #854d0e; font-size: 1rem; margin-left: 40px; }
+
+        /* --- EDITOR EN VIVO (PLAYGROUND) --- */
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+            height: 400px;
+        }
+
+        @media (max-width: 700px) { .editor-container { grid-template-columns: 1fr; height: auto; } }
+
+        .editor-box { display: flex; flex-direction: column; }
+        
+        .label-editor { font-weight: bold; margin-bottom: 5px; color: #475569; font-size: 0.9rem; }
+
+        /* Área de escritura (Input) */
+        textarea {
+            background: var(--code-bg);
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9rem;
+            border: none;
+            resize: none;
+            flex-grow: 1;
+            min-height: 200px;
+        }
+        textarea:focus { outline: 2px solid var(--primary); }
+
+        /* Área de resultado (Output) */
+        #live-preview {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-y: auto;
+            color: black; /* Reseteamos color para el preview */
+        }
+        
+        /* Estilos base para el preview para que se vea bonito lo que escribe el usuario */
+        #live-preview h1 { border-bottom: none; color: black; margin-top: 0; }
+        #live-preview ul { list-style-type: disc; }
+        #live-preview ol { list-style-type: decimal; }
+        #live-preview li { margin-bottom: 5px; }
+
+        /* Notas */
+        .note { background: #fff1f2; border-left: 4px solid #f43f5e; padding: 15px; border-radius: 4px; margin-top: 20px; font-size: 0.9rem; }
+
+        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:40px; padding-top: 20px; border-top: 1px solid var(--border); }
         .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
     </style>
 </head>
 <body>
     <div class="card">
         <div class="breadcrumb"><a href="../index.html">← Volver al programa</a></div>
-        <h1>Textos: encabezados, párrafos y listas</h1>
-        <p>Domina cómo jerarquizar información con títulos y cómo agrupar ítems con listas ordenadas y desordenadas.</p>
+        
+        <h1>Textos, Títulos y Listas</h1>
+        <p>En HTML, no usamos negritas para "decorar". Usamos etiquetas para definir qué es un título, qué es un párrafo y qué es una lista.</p>
+
+        
 
         <div class="section">
-            <h3>Puntos clave</h3>
-            <ul>
-                <li>Usa un solo <strong>&lt;h1&gt;</strong> por página y luego <strong>h2-h6</strong> para subsecciones.</li>
-                <li><strong>&lt;p&gt;</strong> se reserva para bloques de texto; evita usar saltos de línea múltiples.</li>
-                <li><strong>&lt;ul&gt;</strong> crea listas sin orden y <strong>&lt;ol&gt;</strong> listas numeradas; cada ítem vive en un <strong>&lt;li&gt;</strong>.</li>
-            </ul>
-        </div>
-
-        <div class="section example">
-            <strong>Ejemplo rápido</strong>
-            <pre><code>&lt;h1&gt;Receta express&lt;/h1&gt;
-&lt;h2&gt;Ingredientes&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;2 huevos&lt;/li&gt;
-  &lt;li&gt;1 taza de harina&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;Pasos&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;Mezcla los ingredientes.&lt;/li&gt;
-  &lt;li&gt;Hornea por 20 minutos.&lt;/li&gt;
-&lt;/ol&gt;</code></pre>
+            <h2>1. La Regla de Oro de los Títulos (H1-H6)</h2>
+            <p>Los buscadores (Google) leen tu página como un esquema. Nunca uses un H2 solo porque quieres letra grande.</p>
+            <div class="hierarchy-demo">
+                <h1>&lt;h1&gt; Título Principal (Solo 1 por página)</h1>
+                <h2>&lt;h2&gt; Sección Importante</h2>
+                <h3>&lt;h3&gt; Sub-sección</h3>
+                <h2>&lt;h2&gt; Otra Sección Importante</h2>
+            </div>
         </div>
 
         <div class="section">
-            <h3>Práctica</h3>
-            <p>Escribe un artículo corto con un título principal, dos subtítulos y listas para ingredientes y pasos. Observa cómo los estilos por defecto crean jerarquía.</p>
+            <h2>2. Listas y Párrafos: ¡Pruébalo tú mismo!</h2>
+            <p>Aquí tienes el código de una receta. <strong>Edita el código a la izquierda</strong> y mira cómo cambia la estructura a la derecha al instante.</p>
+            
+            <div class="editor-container">
+                <div class="editor-box">
+                    <label class="label-editor">💻 Escribe HTML aquí:</label>
+                    <textarea id="code-input" oninput="updatePreview()">
+<h1>Receta de Panqueques</h1>
+
+<p>Estos son los panqueques más fáciles del mundo. Ideales para el desayuno.</p>
+
+<h2>Ingredientes (Lista sin orden)</h2>
+<ul>
+  <li>2 huevos</li>
+  <li>1 taza de leche</li>
+  <li>1 taza de harina</li>
+</ul>
+
+<h2>Preparación (Lista ordenada)</h2>
+<ol>
+  <li>Batir los huevos.</li>
+  <li>Agregar la leche y harina.</li>
+  <li>Cocinar en sartén caliente.</li>
+</ol>
+</textarea>
+                </div>
+
+                <div class="editor-box">
+                    <label class="label-editor">👀 Resultado en vivo:</label>
+                    <div id="live-preview"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="note">
+            <strong>⚠️ Diferencia clave:</strong> Usa <code>&lt;ul&gt;</code> (Unordered List) cuando el orden no importa (como ingredientes). Usa <code>&lt;ol&gt;</code> (Ordered List) cuando son pasos a seguir (1, 2, 3...).
         </div>
 
         <div class="nav-links">
@@ -57,5 +141,16 @@
             <a href="html-enlaces-imagenes.html">Siguiente: Enlaces e imágenes →</a>
         </div>
     </div>
+
+    <script>
+        // Función simple para actualizar el preview
+        function updatePreview() {
+            const code = document.getElementById('code-input').value;
+            document.getElementById('live-preview').innerHTML = code;
+        }
+
+        // Ejecutar al inicio para que no aparezca vacío
+        updatePreview();
+    </script>
 </body>
 </html>
