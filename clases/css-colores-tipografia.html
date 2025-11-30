@@ -3,43 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSS: Colores y tipografía</title>
+    <title>CSS: Colores y Tipografía</title>
     <style>
-        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
+        /* --- ESTILOS BASE (Mismo diseño que el resto del curso) --- */
+        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; --code-bg: #1e293b; }
+        
         body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; line-height:1.6; }
-        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
-        h1 { color:var(--primary); margin-top:0; }
-        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
-        .section { margin-top:16px; }
-        ul { padding-left:22px; color:var(--muted); }
-        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+        
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:30px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
+        
+        h1 { color:var(--primary); margin-top:0; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+        h2 { font-size: 1.2rem; margin-top: 30px; color: #334155; }
+        
+        .breadcrumb a { text-decoration:none; color:#94a3b8; font-size: 0.9rem; font-weight:600; }
+        .breadcrumb a:hover { color: var(--primary); }
+
+        /* --- ZONA DE DISEÑO (GRID) --- */
+        .design-studio {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+            margin-top: 20px;
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        @media (max-width: 768px) { .design-studio { grid-template-columns: 1fr; } }
+
+        /* Panel de Controles (Izquierda) */
+        .controls { background: white; padding: 20px; border-radius: 8px; border: 1px solid #cbd5e1; }
+        
+        .control-group { margin-bottom: 20px; }
+        .control-label { display: block; font-weight: bold; font-size: 0.85rem; margin-bottom: 8px; color: #475569; }
+        
+        /* Inputs bonitos */
+        input[type="color"] { width: 100%; height: 40px; border: none; cursor: pointer; padding: 0; background: none; }
+        input[type="range"] { width: 100%; cursor: pointer; }
+        select { width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #cbd5e1; }
+
+        /* Previsualización (Derecha) */
+        .preview-window {
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* El Hero Section que vamos a editar */
+        #hero-demo {
+            padding: 40px 20px;
+            text-align: center;
+            transition: all 0.3s ease; /* Suaviza los cambios */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #hero-title { margin: 0 0 10px 0; transition: all 0.3s; }
+        #hero-text { margin: 0 0 20px 0; max-width: 400px; opacity: 0.9; }
+        
+        .hero-btn {
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            background: black; /* Default */
+            color: white; /* Default */
+            transition: transform 0.2s;
+        }
+        .hero-btn:hover { transform: scale(1.05); }
+
+        /* Código generado */
+        .code-output {
+            margin-top: 15px;
+            background: var(--code-bg);
+            color: #bef264;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.8rem;
+        }
+
+        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:40px; padding-top: 20px; border-top: 1px solid var(--border); }
         .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
     </style>
 </head>
 <body>
     <div class="card">
         <div class="breadcrumb"><a href="../index.html">← Volver al programa</a></div>
-        <h1>Colores, fondos y tipografía</h1>
-        <p>Aplica estilos coherentes que mejoren la legibilidad y la identidad visual.</p>
+        
+        <h1>Colores y Tipografía</h1>
+        <p>CSS no solo sirve para mover cosas, sirve para transmitir emociones. Una web con Comic Sans roja no transmite lo mismo que una con Helvética azul.</p>
 
         <div class="section">
-            <h3>Buenas prácticas</h3>
-            <ul>
-                <li>Usa variables CSS para gestionar paletas de color.</li>
-                <li>Define <strong>font-family</strong>, <strong>font-size</strong> y <strong>line-height</strong> para texto legible.</li>
-                <li>Combina <strong>background</strong> con colores o imágenes cuidando el contraste.</li>
+            <h2>1. Propiedades Fundamentales</h2>
+            <ul style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; list-style: none; padding: 0;">
+                <li style="background: #e0f2fe; padding: 10px; border-radius: 6px;">
+                    <strong>🎨 Color:</strong>
+                    <code>color</code> (texto)<br>
+                    <code>background-color</code> (fondo)
+                </li>
+                <li style="background: #f0fdf4; padding: 10px; border-radius: 6px;">
+                    <strong>🔤 Texto:</strong>
+                    <code>font-family</code> (tipo de letra)<br>
+                    <code>font-size</code> (tamaño)
+                </li>
             </ul>
         </div>
 
         <div class="section">
-            <h3>Ejercicio</h3>
-            <p>Recrea el hero de una landing con fondo suave, un titular grande y un botón que contraste.</p>
+            <h2>2. Práctica: Diseña tu "Hero Section"</h2>
+            <p>Usa los controles de la izquierda. Verás el resultado en el centro y el código CSS que necesitas abajo.</p>
+            
+            <div class="design-studio">
+                
+                <div class="controls">
+                    <div class="control-group">
+                        <label class="control-label">Color de Fondo:</label>
+                        <input type="color" id="ctrl-bg" value="#2563eb" oninput="updateDesign()">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Color de Texto:</label>
+                        <input type="color" id="ctrl-text" value="#ffffff" oninput="updateDesign()">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Tipo de Letra (Font-Family):</label>
+                        <select id="ctrl-font" onchange="updateDesign()">
+                            <option value="'Segoe UI', sans-serif">Sans-Serif (Moderna)</option>
+                            <option value="'Times New Roman', serif">Serif (Clásica/Elegante)</option>
+                            <option value="'Courier New', monospace">Monospace (Técnica)</option>
+                            <option value="'Comic Sans MS', cursive">Cursive (Informal)</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Tamaño Título: <span id="size-val">32px</span></label>
+                        <input type="range" id="ctrl-size" min="20" max="60" value="32" oninput="updateDesign()">
+                    </div>
+                </div>
+
+                <div class="preview-column">
+                    <div class="preview-window">
+                        <div style="background:#e2e8f0; padding:5px 10px; display:flex; gap:5px;">
+                            <div style="width:10px; height:10px; background:#ef4444; border-radius:50%"></div>
+                            <div style="width:10px; height:10px; background:#eab308; border-radius:50%"></div>
+                            <div style="width:10px; height:10px; background:#22c55e; border-radius:50%"></div>
+                        </div>
+                        
+                        <div id="hero-demo">
+                            <h1 id="hero-title">Bienvenido a mi Web</h1>
+                            <p id="hero-text">Creamos experiencias digitales increíbles para tu negocio.</p>
+                            <a href="#" class="hero-btn" id="hero-btn">Empezar ahora</a>
+                        </div>
+                    </div>
+
+                    <div class="code-output" id="css-output">
+                        /* Mueve los controles para ver el código */
+                    </div>
+                </div>
+
+            </div>
         </div>
 
         <div class="nav-links">
-            <a href="css-selectores.html">← Anterior: Selectores</a>
-            <a href="css-modelo-caja.html">Siguiente: Modelo de caja →</a>
+            <a href="css-selectores.html">← Anterior: Selectores CSS</a>
+            <a href="css-modelo-caja.html">Siguiente: Modelo de Caja →</a>
         </div>
     </div>
+
+    <script>
+        function updateDesign() {
+            // 1. Obtener valores de los controles
+            const bgColor = document.getElementById('ctrl-bg').value;
+            const textColor = document.getElementById('ctrl-text').value;
+            const fontStack = document.getElementById('ctrl-font').value;
+            const fontSize = document.getElementById('ctrl-size').value;
+
+            // 2. Aplicar estilos al Hero Demo
+            const hero = document.getElementById('hero-demo');
+            const title = document.getElementById('hero-title');
+            const btn = document.getElementById('hero-btn');
+
+            hero.style.backgroundColor = bgColor;
+            hero.style.color = textColor;
+            hero.style.fontFamily = fontStack;
+            title.style.fontSize = fontSize + 'px';
+
+            // Estilo inteligente del botón (Invierte colores para contraste)
+            btn.style.backgroundColor = textColor;
+            btn.style.color = bgColor;
+
+            // Actualizar etiqueta de tamaño
+            document.getElementById('size-val').innerText = fontSize + 'px';
+
+            // 3. Generar el código CSS para que el estudiante aprenda
+            const code = `
+.hero-section {
+    background-color: ${bgColor};
+    color: ${textColor};
+    font-family: ${fontStack};
+}
+
+.hero-title {
+    font-size: ${fontSize}px;
+}`;
+            document.getElementById('css-output').innerText = code.trim();
+        }
+
+        // Inicializar al cargar
+        updateDesign();
+    </script>
 </body>
 </html>
