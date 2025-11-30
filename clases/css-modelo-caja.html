@@ -3,43 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSS: Modelo de caja</title>
+    <title>CSS: Modelo de Caja</title>
     <style>
-        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
+        /* --- ESTILOS BASE --- */
+        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; --code-bg: #1e293b; }
+        
         body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; line-height:1.6; }
-        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
-        h1 { color:var(--primary); margin-top:0; }
-        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
-        .section { margin-top:16px; }
-        ul { padding-left:22px; color:var(--muted); }
-        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+        
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:30px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
+        
+        h1 { color:var(--primary); margin-top:0; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+        h2 { font-size: 1.2rem; margin-top: 30px; color: #334155; }
+        
+        .breadcrumb a { text-decoration:none; color:#94a3b8; font-size: 0.9rem; font-weight:600; }
+        .breadcrumb a:hover { color: var(--primary); }
+
+        /* --- ZONA DE PRÁCTICA (GRID) --- */
+        .playground {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+        @media (max-width: 768px) { .playground { grid-template-columns: 1fr; } }
+
+        /* CONTROLES */
+        .controls { background: #f1f5f9; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; }
+        
+        .control-group { margin-bottom: 20px; }
+        .label-ctrl { display: flex; justify-content: space-between; font-weight: bold; font-size: 0.85rem; margin-bottom: 8px; color: #475569; }
+        input[type="range"] { width: 100%; cursor: pointer; }
+
+        /* Colores estándar de DevTools */
+        .c-margin { color: #f97316; } /* Naranja */
+        .c-border { color: #eab308; } /* Amarillo */
+        .c-padding { color: #22c55e; } /* Verde */
+        .c-content { color: #3b82f6; } /* Azul */
+
+        /* EL SIMULADOR VISUAL */
+        .visualizer-container {
+            background: white;
+            border: 1px dashed #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* La caja que cambia */
+        #the-box {
+            background-color: #3b82f6; /* Azul = Contenido */
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 150px; /* Ancho fijo para el demo */
+            
+            /* Bordes visibles para entender el relleno */
+            box-shadow: 
+                0 0 0 0 #22c55e, /* Padding (Verde) */
+                0 0 0 0 #eab308, /* Border (Amarillo) */
+                0 0 0 0 #f97316; /* Margin (Naranja) */
+            
+            transition: all 0.2s ease;
+        }
+
+        /* Etiquetas flotantes para explicar */
+        .legend {
+            display: flex; gap: 15px; justify-content: center; margin-bottom: 15px; font-size: 0.8rem; font-weight: bold;
+        }
+        .legend span { display: flex; align-items: center; gap: 5px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+
+        /* Código generado */
+        .code-output {
+            margin-top: 15px; background: var(--code-bg); color: #bef264;
+            padding: 15px; border-radius: 6px; font-family: monospace; font-size: 0.85rem;
+        }
+
+        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:40px; padding-top: 20px; border-top: 1px solid var(--border); }
         .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
     </style>
 </head>
 <body>
     <div class="card">
         <div class="breadcrumb"><a href="../index.html">← Volver al programa</a></div>
-        <h1>El modelo de caja</h1>
-        <p>Controla márgenes, bordes y rellenos para que tus elementos ocupen el espacio correcto.</p>
+        
+        <h1>El Modelo de Caja (Box Model)</h1>
+        <p>Todo en una página web es una caja rectangular. Entender sus capas es la clave del diseño.</p>
 
         <div class="section">
-            <h3>Recuerda</h3>
+            <h2>1. La Analogía del Cuadro</h2>
+            <p>Imagina que tienes una pintura valiosa:</p>
             <ul>
-                <li><strong>margin</strong>: espacio externo; <strong>padding</strong>: espacio interno.</li>
-                <li><strong>border</strong> suma grosor a la caja, ajusta <code>box-sizing: border-box</code> para facilitar cálculos.</li>
-                <li>Usa un inspector del navegador para ver el diagrama de caja en vivo.</li>
+                <li><strong class="c-content">Content (Contenido):</strong> La pintura en sí misma.</li>
+                <li><strong class="c-padding">Padding (Relleno):</strong> El paspartú (cartón blanco) que protege la pintura dentro del marco.</li>
+                <li><strong class="c-border">Border (Borde):</strong> El marco de madera.</li>
+                <li><strong class="c-margin">Margin (Margen):</strong> El espacio en la pared entre este cuadro y el siguiente.</li>
             </ul>
         </div>
 
         <div class="section">
-            <h3>Práctica</h3>
-            <p>Crea tres tarjetas con diferentes márgenes y rellenos, observa cómo afectan el layout.</p>
+            <h2>2. Laboratorio de Capas</h2>
+            <p>Mueve los controles. He coloreado las capas como lo hace el navegador para que veas la diferencia.</p>
+            
+            <div class="legend">
+                <span><div class="dot" style="background:#f97316"></div> Margin</span>
+                <span><div class="dot" style="background:#eab308"></div> Border</span>
+                <span><div class="dot" style="background:#22c55e"></div> Padding</span>
+                <span><div class="dot" style="background:#3b82f6"></div> Content</span>
+            </div>
+
+            <div class="playground">
+                <div class="controls">
+                    <div class="control-group">
+                        <label class="label-ctrl c-margin">Margin (Espacio Externo) <span id="val-m">20px</span></label>
+                        <input type="range" id="ctrl-margin" min="0" max="50" value="20" oninput="updateBox()">
+                    </div>
+                    <div class="control-group">
+                        <label class="label-ctrl c-border">Border (Grosor del Borde) <span id="val-b">5px</span></label>
+                        <input type="range" id="ctrl-border" min="0" max="20" value="5" oninput="updateBox()">
+                    </div>
+                    <div class="control-group">
+                        <label class="label-ctrl c-padding">Padding (Espacio Interno) <span id="val-p">20px</span></label>
+                        <input type="range" id="ctrl-padding" min="0" max="50" value="20" oninput="updateBox()">
+                    </div>
+                    
+                    <small style="color:#64748b;">*Nota: Fíjate cómo el Padding agranda la caja visualmente.</small>
+                </div>
+
+                <div>
+                    <div class="visualizer-container">
+                        <div id="the-box">
+                            SOY UNA CAJA
+                        </div>
+                    </div>
+                    
+                    <div class="code-output" id="css-code">
+.caja {
+  margin: 20px;
+  border: 5px solid gold;
+  padding: 20px;
+}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" style="background:#eff6ff; border-left:4px solid var(--primary); padding:15px;">
+            <h3>💡 El Truco Profesional: box-sizing</h3>
+            <p>Por defecto, si pones <code>width: 200px</code> y añades <code>padding: 20px</code>, la caja medirá 240px. ¡Es matemáticas molestas!</p>
+            <p>Para arreglarlo, siempre usamos esto al inicio del CSS:</p>
+            <code>* { box-sizing: border-box; }</code>
         </div>
 
         <div class="nav-links">
-            <a href="css-colores-tipografia.html">← Anterior: Colores y tipografía</a>
+            <a href="css-colores-tipografia.html">← Anterior: Colores</a>
             <a href="css-flexbox.html">Siguiente: Flexbox →</a>
         </div>
     </div>
+
+    <script>
+        function updateBox() {
+            // 1. Obtener valores
+            const m = document.getElementById('ctrl-margin').value;
+            const b = document.getElementById('ctrl-border').value;
+            const p = document.getElementById('ctrl-padding').value;
+
+            // 2. Actualizar textos de los sliders
+            document.getElementById('val-m').innerText = m + 'px';
+            document.getElementById('val-b').innerText = b + 'px';
+            document.getElementById('val-p').innerText = p + 'px';
+
+            // 3. Aplicar estilos a la caja visual
+            // Usamos Box-Shadow para simular las capas de colores sin afectar el layout real del ejemplo
+            // Esto permite ver el padding y margin coloreados claramente
+            const box = document.getElementById('the-box');
+            
+            // Padding real (para que el texto se mueva)
+            box.style.padding = p + 'px';
+            
+            // Simulamos los colores con box-shadow para efecto educativo
+            // Sombra 1 (Verde) = Simula donde está el padding (inset)
+            // Sombra 2 (Amarilla) = Simula el borde
+            // Sombra 3 (Naranja) = Simula el margen
+            
+            box.style.border = `${b}px solid #eab308`; // Borde real amarillo
+            box.style.margin = `${m}px`; // Margen real
+            
+            // Color de fondo para el padding (visualización)
+            // En CSS real el padding es transparente, aquí lo pintamos de verde con un truco de background-clip
+            if (p > 0) {
+                 box.style.background = `linear-gradient(#3b82f6, #3b82f6) content-box, linear-gradient(#22c55e, #22c55e) padding-box`;
+            } else {
+                 box.style.background = `#3b82f6`;
+            }
+            
+            // Visualización del margen externo (Naranja) usando outline o shadow es complejo
+            // Así que usamos margin real y el contenedor blanco lo muestra por espacio.
+            // Para el color naranja del margen, usamos un box-shadow externo
+            box.style.boxShadow = `0 0 0 ${m}px #ffedd5`; // Sombra naranja suave externa
+
+            // 4. Actualizar código
+            document.getElementById('css-code').innerText = 
+`.caja {
+  margin: ${m}px;   /* Espacio externo */
+  border: ${b}px solid gold;
+  padding: ${p}px;  /* Espacio interno */
+}`;
+        }
+        
+        // Iniciar
+        updateBox();
+    </script>
 </body>
 </html>
