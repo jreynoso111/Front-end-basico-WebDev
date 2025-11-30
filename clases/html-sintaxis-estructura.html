@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML: Sintaxis básica y estructura</title>
+    <style>
+        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
+        body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; line-height:1.6; }
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
+        h1 { color:var(--primary); margin-top:0; }
+        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
+        .section { margin-top:16px; }
+        ul { padding-left:22px; color:var(--muted); }
+        .callout { background:#eef2ff; border:1px solid #c7d2fe; padding:12px; border-radius:10px; color:#312e81; }
+        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+        .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="breadcrumb"><a href="../index.html">← Volver al programa</a></div>
+        <h1>Sintaxis básica y estructura del documento</h1>
+        <p>Conoce las piezas imprescindibles que forman un archivo HTML y cómo organizarlas de forma correcta.</p>
+
+        <div class="section">
+            <h3>Objetivo</h3>
+            <p>Crear un documento HTML mínimo que el navegador pueda interpretar sin errores, con una jerarquía clara.</p>
+        </div>
+
+        <div class="section">
+            <h3>Conceptos clave</h3>
+            <ul>
+                <li><strong>&lt;!DOCTYPE html&gt;</strong>: indica que el documento usa HTML5.</li>
+                <li><strong>&lt;html lang="es"&gt;</strong>: envuelve todo el contenido y define el idioma.</li>
+                <li><strong>&lt;head&gt;</strong>: metadatos, título, enlaces a hojas de estilo y scripts.</li>
+                <li><strong>&lt;body&gt;</strong>: todo lo que el usuario verá en la página.</li>
+            </ul>
+        </div>
+
+        <div class="section callout">
+            <strong>Mini práctica:</strong> crea un archivo <code>index.html</code> con las etiquetas anteriores y agrega un título y un párrafo dentro del <code>&lt;body&gt;</code>.
+        </div>
+
+        <div class="section">
+            <h3>Recursos extra</h3>
+            <ul>
+                <li>Documentación de MDN sobre <a href="https://developer.mozilla.org/es/docs/Web/HTML" target="_blank" rel="noopener noreferrer">HTML básico</a>.</li>
+                <li>Validador de HTML en <a href="https://validator.w3.org/" target="_blank" rel="noopener noreferrer">W3C Validator</a>.</li>
+            </ul>
+        </div>
+
+        <div class="nav-links">
+            <span></span>
+            <a href="html-textos-listas.html">Siguiente: Textos y listas →</a>
+        </div>
+    </div>
+</body>
+</html>
