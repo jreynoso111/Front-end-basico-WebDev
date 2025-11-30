@@ -3,43 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Git básico</title>
+    <title>Git Básico: Flujo de Trabajo</title>
     <style>
-        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
+        /* --- ESTILOS BASE --- */
+        :root { --primary:#f05033; /* Color Naranja Git */ --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; --code-bg: #1e293b; }
+        
         body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; line-height:1.6; }
-        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
-        h1 { color:var(--primary); margin-top:0; }
-        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
-        .section { margin-top:16px; }
-        ul { padding-left:22px; color:var(--muted); }
-        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+        
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:30px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
+        
+        h1 { color:var(--primary); margin-top:0; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+        h2 { font-size: 1.2rem; margin-top: 30px; color: #334155; }
+        
+        .breadcrumb a { text-decoration:none; color:#94a3b8; font-size: 0.9rem; font-weight:600; }
+        .breadcrumb a:hover { color: var(--primary); }
+
+        /* --- VISUALIZADOR DE ZONAS GIT --- */
+        .git-visualizer {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 12px;
+            min-height: 300px;
+        }
+
+        @media (max-width: 700px) { .git-visualizer { grid-template-columns: 1fr; } }
+
+        .zone {
+            background: white;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .zone-title { font-weight: bold; margin-bottom: 15px; text-align: center; color: #475569; font-size: 0.9rem; text-transform: uppercase; }
+        
+        /* Colores de las zonas */
+        .zone.working { border-color: #94a3b8; background: #fff; }
+        .zone.staging { border-color: #22c55e; background: #f0fdf4; }
+        .zone.repo { border-color: var(--primary); background: #fff7ed; }
+
+        /* El archivo que se mueve */
+        .file-item {
+            background: white;
+            border: 1px solid #cbd5e1;
+            padding: 10px;
+            border-radius: 6px;
+            width: 80%;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            font-size: 0.85rem;
+            display: flex; align-items: center; gap: 8px;
+            transition: all 0.3s ease;
+        }
+        .file-item.new { border-left: 4px solid #ef4444; } /* Rojo: Sin seguimiento */
+        .file-item.staged { border-left: 4px solid #22c55e; background: #dcfce7; } /* Verde: Listo */
+        .file-item.committed { border-left: 4px solid var(--primary); opacity: 0.7; }
+
+        /* TERMINAL FALSA */
+        .terminal-panel {
+            background: var(--code-bg);
+            color: #bef264;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        .term-line { margin-bottom: 5px; }
+        .term-prompt { color: #f472b6; margin-right: 10px; }
+
+        /* BOTONES DE ACCIÓN */
+        .action-bar {
+            display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;
+        }
+        .btn-git {
+            padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer;
+            font-weight: bold; font-family: monospace; font-size: 1rem;
+            flex: 1; transition: transform 0.1s;
+        }
+        .btn-git:active { transform: scale(0.98); }
+        
+        .btn-create { background: #e2e8f0; color: #334155; }
+        .btn-add { background: #22c55e; color: white; }
+        .btn-commit { background: var(--primary); color: white; }
+
+        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:40px; padding-top: 20px; border-top: 1px solid var(--border); }
         .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
     </style>
 </head>
 <body>
     <div class="card">
         <div class="breadcrumb"><a href="../index.html">← Volver al programa</a></div>
-        <h1>Git básico: versiones de tu código</h1>
-        <p>Registra cambios y colabora con otros desarrolladores.</p>
+        
+        <h1>Git Básico: Control de Versiones</h1>
+        <p>Git es como un álbum de fotos para tu código. Tomas "fotos" (commits) del estado de tus archivos para poder volver atrás si te equivocas.</p>
 
         <div class="section">
-            <h3>Comandos esenciales</h3>
-            <ul>
-                <li><code>git init</code>, <code>git status</code>, <code>git add .</code>, <code>git commit -m "mensaje"</code>.</li>
-                <li>Crear y cambiar ramas: <code>git branch nombre</code>, <code>git checkout nombre</code> o <code>git switch nombre</code>.</li>
-                <li>Subir a remoto: <code>git remote add origin URL</code> y <code>git push -u origin main</code>.</li>
-            </ul>
+            <h2>Simulador de Flujo Git</h2>
+            <p>Sigue los pasos 1, 2 y 3 para entender cómo viajan los archivos.</p>
+
+            <div class="git-visualizer">
+                <div class="zone working" id="zone-working">
+                    <div class="zone-title">1. Working Directory<br><small>(Tu carpeta actual)</small></div>
+                    </div>
+
+                <div class="zone staging" id="zone-staging">
+                    <div class="zone-title">2. Staging Area<br><small>(La caja de envío)</small></div>
+                    </div>
+
+                <div class="zone repo" id="zone-repo">
+                    <div class="zone-title">3. Repository<br><small>(La historia guardada)</small></div>
+                    </div>
+            </div>
+
+            <div class="action-bar">
+                <button class="btn-git btn-create" onclick="createFile()">1. Crear Archivo</button>
+                <button class="btn-git btn-add" onclick="gitAdd()">2. git add .</button>
+                <button class="btn-git btn-commit" onclick="gitCommit()">3. git commit</button>
+            </div>
+
+            <div class="terminal-panel" id="terminal">
+                <div class="term-line"><span class="term-prompt">user@pc:~$</span> git init</div>
+                <div class="term-line" style="color:gray">// Repositorio inicializado. Listo para trabajar.</div>
+            </div>
         </div>
 
         <div class="section">
-            <h3>Práctica</h3>
-            <p>Inicializa un repositorio en esta carpeta, haz un commit con tus notas y crea una rama para experimentar.</p>
+            <h3>¿Qué acaba de pasar?</h3>
+            <ul>
+                <li><strong>Working Directory:</strong> Es donde escribes código. Si se va la luz aquí sin guardar, pierdes el trabajo.</li>
+                <li><strong>git add (Staging):</strong> Es como poner los archivos en una caja de cartón antes de enviarlos. Seleccionas qué quieres guardar.</li>
+                <li><strong>git commit (Repo):</strong> Es cerrar la caja con cinta adhesiva y ponerle una etiqueta. Ahora es parte de la historia permanente.</li>
+            </ul>
         </div>
 
         <div class="nav-links">
             <a href="herramientas-vscode.html">← Anterior: VS Code</a>
-            <a href="proyecto-final-landing.html">Siguiente: Proyecto final →</a>
+            <a href="proyecto-final.html">Siguiente: Proyecto Final →</a>
         </div>
     </div>
+
+    <script>
+        // Variables para controlar el estado
+        let filesInWorking = 0;
+        let filesInStaging = 0;
+        let commitCount = 0;
+
+        const term = document.getElementById('terminal');
+        const workingZone = document.getElementById('zone-working');
+        const stagingZone = document.getElementById('zone-staging');
+        const repoZone = document.getElementById('zone-repo');
+
+        function log(message, isCommand = false) {
+            const line = document.createElement('div');
+            line.classList.add('term-line');
+            if (isCommand) {
+                line.innerHTML = `<span class="term-prompt">user@pc:~$</span> ${message}`;
+            } else {
+                line.style.color = '#cbd5e1';
+                line.innerText = message;
+            }
+            term.appendChild(line);
+            term.scrollTop = term.scrollHeight; // Auto scroll
+        }
+
+        function createFile() {
+            filesInWorking++;
+            const file = document.createElement('div');
+            file.className = 'file-item new';
+            file.innerHTML = `📄 index.html <small>(Modificado)</small>`;
+            file.id = `file-${Date.now()}`; // ID único
+            workingZone.appendChild(file);
+            
+            log(`Escribiendo código... Nuevo archivo creado.`, false);
+        }
+
+        function gitAdd() {
+            // Mover todos los archivos de Working a Staging
+            if (workingZone.children.length <= 1) { // 1 es el título
+                log("Nada que agregar. Crea un archivo primero.", false);
+                return;
+            }
+
+            log("git add .", true);
+            
+            // Seleccionar los archivos (ignorando el título)
+            const files = Array.from(workingZone.querySelectorAll('.file-item'));
+            
+            files.forEach(file => {
+                file.classList.remove('new');
+                file.classList.add('staged');
+                file.innerHTML = `📦 index.html <small>(Listo para commit)</small>`;
+                stagingZone.appendChild(file);
+            });
+        }
+
+        function gitCommit() {
+            if (stagingZone.children.length <= 1) {
+                log("Nada para confirmar. Haz un git add primero.", false);
+                return;
+            }
+
+            commitCount++;
+            const message = `Versión ${commitCount}: Avances del proyecto`;
+            log(`git commit -m "${message}"`, true);
+
+            // Limpiar Staging
+            const files = Array.from(stagingZone.querySelectorAll('.file-item'));
+            files.forEach(file => file.remove());
+
+            // Crear entrada en el Repo
+            const commit = document.createElement('div');
+            commit.className = 'file-item committed';
+            commit.style.width = "90%";
+            commit.innerHTML = `<strong>💾 Commit #${commitCount}</strong><br><small>${message}</small>`;
+            
+            // Insertar al principio del historial (arriba)
+            repoZone.insertBefore(commit, repoZone.children[1]);
+            
+            log(`[main ${Math.random().toString(16).substr(2, 7)}] ${message}`, false);
+        }
+    </script>
 </body>
 </html>
