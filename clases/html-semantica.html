@@ -5,37 +5,173 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTML: Semántica</title>
     <style>
-        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
+        /* --- ESTILOS BASE --- */
+        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; --code-bg: #1e293b; }
+        
         body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; line-height:1.6; }
-        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
-        h1 { color:var(--primary); margin-top:0; }
-        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
-        .section { margin-top:16px; }
-        ul { padding-left:22px; color:var(--muted); }
-        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+        
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:30px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
+        
+        h1 { color:var(--primary); margin-top:0; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+        h2 { font-size: 1.2rem; margin-top: 30px; color: #334155; }
+        
+        .breadcrumb a { text-decoration:none; color:#94a3b8; font-size: 0.9rem; font-weight:600; }
+        .breadcrumb a:hover { color: var(--primary); }
+
+        /* --- VISUALIZADOR SEMÁNTICO (GRID) --- */
+        .layout-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* Columna Izq (Main), Columna Der (Sidebar) */
+            grid-template-rows: auto auto 1fr auto; /* Header, Nav, Content, Footer */
+            gap: 10px;
+            background: #e2e8f0;
+            padding: 10px;
+            border-radius: 8px;
+            height: 400px;
+            margin-top: 20px;
+        }
+
+        /* En móviles, todo en una columna */
+        @media (max-width: 600px) {
+            .layout-container { grid-template-columns: 1fr; height: auto; }
+        }
+
+        /* Zonas Comunes */
+        .semantic-zone {
+            padding: 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            border: 2px dashed rgba(0,0,0,0.1);
+        }
+        
+        .semantic-zone:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .tag-label {
+            font-family: monospace;
+            background: rgba(255,255,255,0.8);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #333;
+        }
+
+        /* Zonas Específicas (Colores y Ubicación) */
+        .area-header {
+            grid-column: 1 / -1; /* Ocupa todo el ancho */
+            background-color: #fee2e2; border-color: #ef4444; color: #991b1b;
+        }
+        .area-nav {
+            grid-column: 1 / -1;
+            background-color: #ffedd5; border-color: #f97316; color: #9a3412;
+        }
+        .area-main {
+            background-color: #dcfce7; border-color: #22c55e; color: #166534;
+            flex-direction: column; justify-content: flex-start;
+        }
+        .area-aside {
+            background-color: #e0f2fe; border-color: #3b82f6; color: #1e40af;
+        }
+        .area-footer {
+            grid-column: 1 / -1;
+            background-color: #f3f4f6; border-color: #4b5563; color: #1f2937;
+        }
+
+        /* Panel de Información */
+        .info-panel {
+            margin-top: 20px;
+            background: #1e293b;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+        }
+        .info-title { font-size: 1.5rem; font-family: monospace; color: #bef264; margin-right: 15px; border-right: 1px solid #475569; padding-right: 15px; }
+        .info-desc { font-size: 0.95rem; line-height: 1.4; }
+
+        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:40px; padding-top: 20px; border-top: 1px solid var(--border); }
         .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
     </style>
 </head>
 <body>
     <div class="card">
         <div class="breadcrumb"><a href="../index.html">← Volver al programa</a></div>
-        <h1>HTML semántico</h1>
-        <p>Usa etiquetas que describen el propósito del contenido y facilitan la accesibilidad.</p>
+        
+        <h1>HTML Semántico: Significado antes que Diseño</h1>
+        <p>Un <code>&lt;div&gt;</code> no le dice nada a Google. Un <code>&lt;header&gt;</code> le grita "¡Aquí empieza el contenido!".</p>
 
         <div class="section">
-            <h3>Bloques esenciales</h3>
-            <ul>
-                <li><strong>&lt;header&gt;</strong> para la cabecera y navegación principal.</li>
-                <li><strong>&lt;nav&gt;</strong> agrupa enlaces de navegación.</li>
-                <li><strong>&lt;main&gt;</strong> contiene el contenido principal de la página.</li>
-                <li><strong>&lt;section&gt;</strong> y <strong>&lt;article&gt;</strong> dividen el contenido por temas.</li>
-                <li><strong>&lt;footer&gt;</strong> cierra con créditos, enlaces secundarios o contacto.</li>
-            </ul>
+            <h2>1. Escáner de Estructura</h2>
+            <p>Pasa el mouse por las diferentes zonas del diseño de abajo para entender qué etiqueta debes usar en cada lugar.</p>
+
+            <div class="layout-container">
+                <div class="semantic-zone area-header" onmouseover="explain('header', 'La cabecera. Aquí va el Logo y el título del sitio.')">
+                    <span class="tag-label">&lt;header&gt;</span>
+                </div>
+
+                <div class="semantic-zone area-nav" onmouseover="explain('nav', 'Navegación. Solo para los enlaces principales (Menú).')">
+                    <span class="tag-label">&lt;nav&gt;</span>
+                </div>
+
+                <div class="semantic-zone area-main" onmouseover="explain('main', 'Contenido Principal. Lo único e importante de esta página específica.')">
+                    <span class="tag-label" style="margin-bottom:10px">&lt;main&gt;</span>
+                    
+                    <div style="border:1px dashed #166534; padding:10px; width:90%; border-radius:4px; margin-bottom:5px; background:rgba(255,255,255,0.3)">
+                        <span style="font-size:0.8rem">&lt;section&gt; (Tema A)</span>
+                    </div>
+                    <div style="border:1px dashed #166534; padding:10px; width:90%; border-radius:4px; background:rgba(255,255,255,0.3)">
+                        <span style="font-size:0.8rem">&lt;section&gt; (Tema B)</span>
+                    </div>
+                </div>
+
+                <div class="semantic-zone area-aside" onmouseover="explain('aside', 'Barra lateral. Información extra, publicidad o enlaces relacionados.')">
+                    <span class="tag-label">&lt;aside&gt;</span>
+                </div>
+
+                <div class="semantic-zone area-footer" onmouseover="explain('footer', 'Pie de página. Copyright, redes sociales y contacto.')">
+                    <span class="tag-label">&lt;footer&gt;</span>
+                </div>
+            </div>
+
+            <div class="info-panel">
+                <div id="display-tag" class="info-title">&lt;?&gt;</div>
+                <div id="display-desc" class="info-desc">Pasa el mouse sobre el diseño de arriba para ver la función de cada etiqueta.</div>
+            </div>
         </div>
 
         <div class="section">
-            <h3>Ejercicio</h3>
-            <p>Rediseña una página simple reemplazando divs genéricos por etiquetas semánticas. Usa un lector de pantalla para confirmar que la estructura es más clara.</p>
+            <h2>2. ¿Por qué importa? (Div vs Semántica)</h2>
+            <p>A la izquierda, código "malo" (funciona pero es ilegible). A la derecha, código "profesional".</p>
+            
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:10px;">
+                <div style="background:#f1f5f9; padding:15px; border-radius:8px; font-size:0.85rem;">
+                    <strong style="color:#ef4444">❌ Código sucio (Div Soup)</strong>
+                    <pre style="margin:5px 0; color:#64748b;">
+&lt;div id="header"&gt;...&lt;/div&gt;
+&lt;div id="menu"&gt;...&lt;/div&gt;
+&lt;div class="contenido"&gt;...&lt;/div&gt;
+&lt;div id="pie"&gt;...&lt;/div&gt;</pre>
+                </div>
+                
+                <div style="background:#f0fdf4; padding:15px; border-radius:8px; font-size:0.85rem;">
+                    <strong style="color:#166534">✅ Código Semántico</strong>
+                    <pre style="margin:5px 0; color:#166534;">
+&lt;header&gt;...&lt;/header&gt;
+&lt;nav&gt;...&lt;/nav&gt;
+&lt;main&gt;...&lt;/main&gt;
+&lt;footer&gt;...&lt;/footer&gt;</pre>
+                </div>
+            </div>
         </div>
 
         <div class="nav-links">
@@ -43,5 +179,12 @@
             <a href="css-selectores.html">Siguiente: CSS Selectores →</a>
         </div>
     </div>
+
+    <script>
+        function explain(tag, text) {
+            document.getElementById('display-tag').innerText = `<${tag}>`;
+            document.getElementById('display-desc').innerText = text;
+        }
+    </script>
 </body>
 </html>
