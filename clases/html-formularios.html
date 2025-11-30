@@ -2,75 +2,198 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Clase: Entendiendo Formularios</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso Front-End Completo</title>
     <style>
-        body { font-family: sans-serif; padding: 40px; background-color: #f4f4f4; }
+        :root { --primary: #2563eb; --bg: #f8fafc; --text: #1e293b; --card: #ffffff; }
         
-        /* Esta caja blanca es solo para que se vea ordenado */
-        .contenedor-formulario {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            max-width: 500px;
-            margin: 0 auto;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
         }
 
-        /* Estilo simple para separar las preguntas */
-        .pregunta { margin-bottom: 20px; }
-        
-        /* Hacemos que el label esté encima del input */
-        label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
-        
-        /* Hacemos que el input sea grande y cómodo */
-        input { width: 100%; padding: 10px; box-sizing: border-box; }
+        /* --- ESTILOS DE LA BARRA DE PROGRESO --- */
+        .progress-container { background: #e2e8f0; border-radius: 10px; height: 20px; width: 100%; margin: 20px 0; overflow: hidden; }
+        .progress-bar { background: var(--primary); height: 100%; width: 0%; transition: width 0.3s; }
+        .stats { text-align: center; font-weight: bold; }
 
-        /* Botón llamativo */
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #2563eb;
+        /* --- ESTILOS DE LAS TARJETAS --- */
+        .section, .lesson-card { 
+            background: var(--card); 
+            padding: 25px; 
+            border-radius: 12px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
+        }
+
+        .topic { 
+            display: flex; 
+            align-items: center; 
+            padding: 12px 0; 
+            border-bottom: 1px solid #f1f5f9; 
+            justify-content: space-between;
+        }
+
+        label { cursor: pointer; flex-grow: 1; margin-left: 10px; }
+        input[type="checkbox"] { transform: scale(1.3); cursor: pointer; }
+        input:checked + label { text-decoration: line-through; color: #94a3b8; }
+
+        /* --- BOTONES DE NAVEGACIÓN --- */
+        .btn-ver {
+            background-color: #eff6ff;
+            color: var(--primary);
+            border: 1px solid #bfdbfe;
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        .btn-ver:hover { background-color: #dbeafe; }
+
+        .btn-volver {
+            background-color: var(--primary);
             color: white;
             border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: bold;
         }
-        button:hover { background-color: #1d4ed8; }
+
+        /* --- SISTEMA DE VISTAS (OCULTAR/MOSTRAR) --- */
+        .hidden { display: none !important; }
+
+        /* --- ESTILOS ESPECÍFICOS DE LA CLASE DE FORMULARIOS --- */
+        .form-demo { border: 2px dashed #cbd5e1; padding: 20px; border-radius: 8px; background: #fafafa; }
+        .form-input { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box; }
+        .form-label { display: block; font-weight: bold; margin-bottom: 5px; }
     </style>
 </head>
 <body>
 
-    <div class="contenedor-formulario">
-        <h2>Registro de Usuario</h2>
-        
-        <form action="#">
+    <div id="view-roadmap">
+        <header style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: var(--primary);">🚀 Ruta Front-End</h1>
+            <p>Marca tus avances. Tu progreso se guarda automáticamente.</p>
+        </header>
 
-            <div class="pregunta">
-                <label for="campo-nombre">¿Cómo te llamas?</label>
-                
-                <input type="text" id="campo-nombre" name="nombre_usuario" placeholder="Ej: Ana Pérez">
+        <div class="stats">Progreso: <span id="progress-text">0%</span></div>
+        <div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
+
+        <div class="section">
+            <h2>1. HTML</h2>
+            
+            <div class="topic">
+                <div style="display:flex; align-items:center;">
+                    <input type="checkbox" id="html1">
+                    <label for="html1">Sintaxis básica</label>
+                </div>
             </div>
 
-            <div class="pregunta">
-                <label for="campo-email">Tu correo electrónico:</label>
-                
-                <input type="email" id="campo-email" name="email_usuario" placeholder="ana@ejemplo.com">
+            <div class="topic">
+                <div style="display:flex; align-items:center;">
+                    <input type="checkbox" id="html2">
+                    <label for="html2">Formularios y Inputs</label>
+                </div>
+                <button class="btn-ver" onclick="showLesson()">Ver clase ▶</button>
             </div>
-
-            <div class="pregunta">
-                <label for="campo-pass">Crea una contraseña:</label>
-                
-                <input type="password" id="campo-pass" name="clave_secreta">
+            
+            <div class="topic">
+                <div style="display:flex; align-items:center;">
+                    <input type="checkbox" id="html3">
+                    <label for="html3">HTML Semántico</label>
+                </div>
             </div>
+        </div>
 
-            <button type="submit">Crear mi cuenta</button>
-
-        </form>
+        <div class="section">
+            <h2>2. CSS</h2>
+            <div class="topic"><div style="display:flex;"><input type="checkbox" id="css1"><label for="css1">Selectores y Colores</label></div></div>
+            <div class="topic"><div style="display:flex;"><input type="checkbox" id="css2"><label for="css2">Flexbox Layout</label></div></div>
+        </div>
     </div>
 
-    <p style="text-align: center; margin-top: 20px;">
-        <a href="../index.html">← Volver a mi Mapa de Progreso</a>
-    </p>
+    <div id="view-lesson" class="hidden">
+        <button class="btn-volver" onclick="showRoadmap()">← Volver al Mapa</button>
+        
+        <div class="lesson-card">
+            <h1 style="margin-top:0;">📝 Clase Práctica: Formularios</h1>
+            <p>Los formularios permiten a los usuarios enviarte datos. Aquí tienes un ejemplo interactivo.</p>
+            
+            <h3>Prueba este formulario real:</h3>
+            <form class="form-demo" onsubmit="alert('¡Excelente! Has enviado el formulario.'); return false;">
+                
+                <label class="form-label" for="user-name">1. Nombre (Texto simple)</label>
+                <input class="form-input" type="text" id="user-name" placeholder="Escribe tu nombre aquí...">
+                
+                <label class="form-label" for="user-email">2. Correo (Validación automática)</label>
+                <input class="form-input" type="email" id="user-email" placeholder="nombre@ejemplo.com" required>
+                <small style="display:block; margin-bottom:15px; color:gray;">*Prueba enviar sin el "@" para ver el error.</small>
+                
+                <label class="form-label" for="user-pass">3. Contraseña (Texto oculto)</label>
+                <input class="form-input" type="password" id="user-pass" placeholder="••••••••">
 
+                <button type="submit" class="btn-volver" style="width:100%; margin-bottom:0;">Enviar Datos</button>
+            </form>
+
+            <div style="background:#1e293b; color:#e2e8f0; padding:15px; border-radius:8px; margin-top:20px;">
+                <strong>Explicación rápida:</strong>
+                <ul>
+                    <li><code>&lt;label for="id"&gt;</code>: Conecta el texto con el campo.</li>
+                    <li><code>&lt;input type="email"&gt;</code>: Verifica que sea un correo real.</li>
+                    <li><code>&lt;input type="password"&gt;</code>: Oculta los caracteres.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- LOGICA DE NAVEGACIÓN (CAMBIAR VISTAS) ---
+        const roadmapView = document.getElementById('view-roadmap');
+        const lessonView = document.getElementById('view-lesson');
+
+        function showLesson() {
+            roadmapView.classList.add('hidden'); // Oculta mapa
+            lessonView.classList.remove('hidden'); // Muestra clase
+            window.scrollTo(0,0); // Sube al inicio
+        }
+
+        function showRoadmap() {
+            lessonView.classList.add('hidden'); // Oculta clase
+            roadmapView.classList.remove('hidden'); // Muestra mapa
+        }
+
+        // --- LOGICA DE PROGRESO (CHECKBOXES) ---
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+
+        function updateProgress() {
+            const total = checkboxes.length;
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const percentage = Math.round((checked / total) * 100);
+
+            progressBar.style.width = percentage + '%';
+            progressText.innerText = percentage + '% completado';
+            
+            checkboxes.forEach(box => localStorage.setItem(box.id, box.checked));
+        }
+
+        function loadState() {
+            checkboxes.forEach(box => {
+                if (localStorage.getItem(box.id) === 'true') box.checked = true;
+            });
+            updateProgress();
+        }
+
+        checkboxes.forEach(box => box.addEventListener('change', updateProgress));
+        loadState();
+    </script>
 </body>
 </html>
