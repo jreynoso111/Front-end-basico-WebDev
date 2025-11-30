@@ -3,43 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JavaScript: Funciones y condicionales</title>
+    <title>JS: Funciones y Lógica</title>
     <style>
-        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
+        /* --- ESTILOS BASE --- */
+        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; --code-bg: #1e293b; }
+        
         body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; line-height:1.6; }
-        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
-        h1 { color:var(--primary); margin-top:0; }
-        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
-        .section { margin-top:16px; }
-        ul { padding-left:22px; color:var(--muted); }
-        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+        
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:30px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
+        
+        h1 { color:var(--primary); margin-top:0; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+        h2 { font-size: 1.2rem; margin-top: 30px; color: #334155; }
+        
+        .breadcrumb a { text-decoration:none; color:#94a3b8; font-size: 0.9rem; font-weight:600; }
+        .breadcrumb a:hover { color: var(--primary); }
+
+        /* --- ZONA LÓGICA (GRID) --- */
+        .logic-lab {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+        }
+
+        @media (max-width: 700px) { .logic-lab { grid-template-columns: 1fr; } }
+
+        /* Panel de Código */
+        .code-panel {
+            background: var(--code-bg);
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9rem;
+            position: relative;
+        }
+        
+        /* Resaltado de sintaxis básico */
+        .kwd { color: #f472b6; } /* Palabras clave (function, if, return) */
+        .var { color: #60a5fa; } /* Variables */
+        .str { color: #bef264; } /* Strings */
+        .num { color: #fbbf24; } /* Números */
+
+        /* Panel Visual */
+        .visual-panel {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #cbd5e1;
+            text-align: center;
+        }
+
+        /* Controles */
+        .input-group { margin-bottom: 20px; width: 100%; text-align: center; }
+        
+        input[type="number"] {
+            padding: 10px; font-size: 1.2rem; width: 80px; text-align: center;
+            border: 2px solid var(--primary); border-radius: 8px; outline: none;
+        }
+
+        /* Resultado */
+        .result-box {
+            font-size: 1.5rem; font-weight: bold; margin-top: 15px; padding: 15px; border-radius: 8px; width: 100%; transition: all 0.3s;
+        }
+        .result-box.allow { background: #dcfce7; color: #166534; border: 1px solid #22c55e; }
+        .result-box.deny { background: #fee2e2; color: #991b1b; border: 1px solid #ef4444; }
+        .result-box.vip { background: #fef9c3; color: #854d0e; border: 1px solid #eab308; }
+
+        .emoji-status { font-size: 3rem; margin-bottom: 10px; display: block; }
+
+        /* Highlight de línea activa en el código */
+        .line { padding: 2px 5px; border-radius: 4px; display: block; }
+        .line.active { background: #444; border-left: 3px solid #bef264; }
+
+        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:40px; padding-top: 20px; border-top: 1px solid var(--border); }
         .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
     </style>
 </head>
 <body>
     <div class="card">
         <div class="breadcrumb"><a href="../index.html">← Volver al programa</a></div>
-        <h1>Funciones y condicionales</h1>
-        <p>Organiza tu lógica en bloques reutilizables y toma decisiones según condiciones.</p>
+        
+        <h1>Funciones y Condicionales</h1>
+        <p>Aquí es donde el código toma decisiones. Una función es una máquina que recibe datos y devuelve un resultado.</p>
 
         <div class="section">
-            <h3>Conceptos clave</h3>
-            <ul>
-                <li>Declara funciones con <code>function</code> o como <code>const saludar = () =&gt; {}</code>.</li>
-                <li>Condicionales: <code>if</code>, <code>else if</code>, <code>else</code>. Evalúan expresiones booleanas.</li>
-                <li>Retorna valores con <code>return</code> para reutilizarlos en otras partes del código.</li>
-            </ul>
+            <h2>Simulador: El Portero de la Discoteca</h2>
+            <p>Cambia la edad en el cuadro blanco. Observa cómo el código de la izquierda "piensa" y decide qué mensaje devolver.</p>
+
+            <div class="logic-lab">
+                
+                <div class="code-panel">
+                    <span class="line"><span class="kwd">function</span> verificarAcceso(<span class="var">edad</span>) {</span>
+                    <span class="line" id="code-l1">&nbsp;&nbsp;<span class="kwd">if</span> (<span class="var">edad</span> <span class="kwd">&lt;</span> <span class="num">18</span>) {</span>
+                    <span class="line" id="code-l2">&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">return</span> <span class="str">"🛑 Acceso Denegado"</span>;</span>
+                    <span class="line">&nbsp;&nbsp;}</span>
+                    <span class="line" id="code-l3">&nbsp;&nbsp;<span class="kwd">else if</span> (<span class="var">edad</span> <span class="kwd">&gt;=</span> <span class="num">65</span>) {</span>
+                    <span class="line" id="code-l4">&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">return</span> <span class="str">"👑 Pase VIP Senior"</span>;</span>
+                    <span class="line">&nbsp;&nbsp;}</span>
+                    <span class="line" id="code-l5">&nbsp;&nbsp;<span class="kwd">else</span> {</span>
+                    <span class="line" id="code-l6">&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">return</span> <span class="str">"✅ Puedes pasar"</span>;</span>
+                    <span class="line">&nbsp;&nbsp;}</span>
+                    <span class="line">}</span>
+                </div>
+
+                <div class="visual-panel">
+                    <div class="input-group">
+                        <label style="display:block; font-weight:bold; margin-bottom:5px;">Edad del usuario:</label>
+                        <input type="number" id="ageInput" value="16" min="0" max="100" oninput="runLogic()">
+                    </div>
+
+                    <div id="resultBox" class="result-box deny">
+                        <span id="emoji" class="emoji-status">🔞</span>
+                        <span id="textResult">🛑 Acceso Denegado</span>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
         <div class="section">
-            <h3>Ejercicio</h3>
-            <p>Crea una función <code>puedeConducir(edad)</code> que devuelva mensajes diferentes según la edad y pruébala con varios números.</p>
+            <h3>Conceptos Clave</h3>
+            <ul>
+                <li><strong>La Función:</strong> Es como una receta. En el ejemplo, <code>verificarAcceso</code> es la receta para decidir quién entra.</li>
+                <li><strong>El Argumento:</strong> Es el ingrediente que le pasas. Aquí, el ingrediente es la <code>edad</code> (el número que escribes).</li>
+                <li><strong>El Return:</strong> Es el plato final que sale de la cocina. El mensaje de texto que ves en la caja de color.</li>
+            </ul>
         </div>
 
         <div class="nav-links">
             <a href="js-variables.html">← Anterior: Variables</a>
-            <a href="js-dom.html">Siguiente: DOM →</a>
+            <a href="js-dom.html">Siguiente: El DOM →</a>
         </div>
     </div>
+
+    <script>
+        function runLogic() {
+            // 1. Obtener el valor del input
+            const age = document.getElementById('ageInput').value;
+            const resultBox = document.getElementById('resultBox');
+            const textResult = document.getElementById('textResult');
+            const emoji = document.getElementById('emoji');
+            
+            // Limpiar líneas resaltadas previas
+            document.querySelectorAll('.line').forEach(el => el.classList.remove('active'));
+
+            // 2. Ejecutar la lógica VISUAL (Simulamos lo que haría JS internamente)
+            
+            // Caso 1: Menor de edad
+            document.getElementById('code-l1').classList.add('active'); // Iluminar el IF
+            
+            if (age < 18) {
+                document.getElementById('code-l2').classList.add('active'); // Iluminar el return
+                
+                // Actualizar UI
+                resultBox.className = "result-box deny";
+                emoji.innerText = "🔞";
+                textResult.innerText = "🛑 Acceso Denegado";
+                return;
+            }
+
+            // Caso 2: Senior (VIP)
+            document.getElementById('code-l3').classList.add('active'); // Iluminar el ELSE IF
+
+            if (age >= 65) {
+                document.getElementById('code-l4').classList.add('active'); // Iluminar el return
+                
+                // Actualizar UI
+                resultBox.className = "result-box vip";
+                emoji.innerText = "👴👑";
+                textResult.innerText = "👑 Pase VIP Senior";
+                return;
+            }
+
+            // Caso 3: Adulto estándar
+            document.getElementById('code-l5').classList.add('active'); // Iluminar el ELSE
+            document.getElementById('code-l6').classList.add('active'); // Iluminar el return
+            
+            // Actualizar UI
+            resultBox.className = "result-box allow";
+            emoji.innerText = "🕺💃";
+            textResult.innerText = "✅ Puedes pasar";
+        }
+
+        // Ejecutar al inicio
+        runLogic();
+    </script>
 </body>
 </html>
