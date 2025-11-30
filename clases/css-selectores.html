@@ -3,43 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSS: Selectores</title>
+    <title>CSS: Selectores y Especificidad</title>
     <style>
-        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
+        /* --- ESTILOS BASE --- */
+        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; --code-bg: #1e293b; }
+        
         body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; line-height:1.6; }
-        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
-        h1 { color:var(--primary); margin-top:0; }
-        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
-        .section { margin-top:16px; }
-        ul { padding-left:22px; color:var(--muted); }
-        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+        
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:30px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
+        
+        h1 { color:var(--primary); margin-top:0; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+        h2 { font-size: 1.2rem; margin-top: 30px; color: #334155; }
+        
+        .breadcrumb a { text-decoration:none; color:#94a3b8; font-size: 0.9rem; font-weight:600; }
+        .breadcrumb a:hover { color: var(--primary); }
+
+        /* --- JUEGO DE CAZADOR DE SELECTORES --- */
+        .hunter-area {
+            background: #1e293b; /* Fondo oscuro simulando editor */
+            padding: 20px;
+            border-radius: 12px;
+            color: white;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 600px) { .hunter-area { grid-template-columns: 1fr; } }
+
+        .input-group { display: flex; flex-direction: column; gap: 10px; }
+        
+        input[type="text"] {
+            padding: 12px; font-family: 'Consolas', monospace; font-size: 1.1rem;
+            border-radius: 6px; border: 2px solid #3b82f6; outline: none; background: #0f172a; color: #bef264;
+        }
+
+        /* El Escenario del Juego */
+        .stage {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-content: center;
+            justify-content: center;
+        }
+
+        /* Los Objetivos */
+        .target {
+            width: 60px; height: 60px;
+            background: #e2e8f0;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; font-weight: bold; color: #64748b;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        /* Estilos visuales para los tipos de elementos */
+        .target.circle { border-radius: 50%; }
+        .target.blue { border-color: #3b82f6; color: #3b82f6; }
+        
+        /* Efecto cuando son seleccionados */
+        .target.selected {
+            background: #bef264; /* Verde brillante */
+            border-color: #65a30d;
+            color: #1a2e05;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px #bef264;
+            z-index: 10;
+        }
+
+        /* --- BATALLA DE ESPECIFICIDAD --- */
+        .battle-arena {
+            display: flex; gap: 20px; align-items: center; justify-content: space-around;
+            background: #f1f5f9; padding: 20px; border-radius: 12px; flex-wrap: wrap;
+        }
+        
+        .rule-card {
+            background: white; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center; flex: 1;
+        }
+        .score { font-size: 1.5rem; font-weight: bold; display: block; margin-bottom: 5px; }
+
+        .battle-box {
+            width: 100px; height: 100px;
+            background: black; /* Color base */
+            color: white; font-weight: bold;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 8px;
+            
+            /* ESTOS SON LOS ESTILOS QUE LUCHAN */
+            /* ID gana a Clase, Clase gana a Etiqueta */
+        }
+        
+        /* Simulamos la batalla con estilos en línea para el demo */
+        #luchador.ganador { background-color: #ef4444 !important; } /* ID = Rojo */
+        .ganador { background-color: #3b82f6; } /* Clase = Azul */
+        div.battle-box { background-color: #64748b; } /* Etiqueta = Gris */
+
+        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:40px; padding-top: 20px; border-top: 1px solid var(--border); }
         .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
     </style>
 </head>
 <body>
     <div class="card">
         <div class="breadcrumb"><a href="../index.html">← Volver al programa</a></div>
-        <h1>Sintaxis y selectores</h1>
-        <p>Aprende a apuntar elementos con precisión usando clases, IDs y selectores combinados.</p>
+        
+        <h1>Selectores: El Arte de Apuntar</h1>
+        <p>En CSS, antes de pintar, tienes que apuntar. Existen tres formas principales de seleccionar elementos.</p>
 
         <div class="section">
-            <h3>Claves rápidas</h3>
-            <ul>
-                <li>Prefiere <strong>clases</strong> para reutilizar estilos, usa <strong>ID</strong> solo para elementos únicos.</li>
-                <li>Combina selectores: <code>.card p</code> selecciona párrafos dentro de .card; <code>button.primary</code> un botón con clase <em>primary</em>.</li>
-                <li>La especificidad importa: inline &gt; ID &gt; clase &gt; elemento.</li>
+            <h2>1. Práctica de Tiro (Hunter)</h2>
+            <p>Escribe el selector correcto en el cuadro negro para iluminar los objetivos. Intenta estos:</p>
+            <ul style="font-size:0.9rem; color:#475569; display:flex; gap:15px; list-style:none; padding:0; flex-wrap:wrap;">
+                <li><code>div</code> (Todos)</li>
+                <li><code>.azul</code> (Los que tienen letras azules)</li>
+                <li><code>#unico</code> (El especial)</li>
+                <li><code>.circulo</code> (Los redondos)</li>
             </ul>
+
+            <div class="hunter-area">
+                <div class="input-group">
+                    <label>Escribe tu selector CSS:</label>
+                    <input type="text" id="selector-input" placeholder="Ej: .azul" onkeyup="huntElements()">
+                    <small>Fíjate cómo el código busca en el escenario de la derecha.</small>
+                </div>
+
+                <div class="stage" id="game-stage">
+                    <div class="target">div</div>
+                    <div class="target circle">.circulo</div>
+                    <div class="target blue">.azul</div>
+                    <div class="target blue circle">.azul.circulo</div>
+                    <div class="target" id="unico">#unico</div>
+                </div>
+            </div>
         </div>
 
         <div class="section">
-            <h3>Práctica</h3>
-            <p>Estiliza una tarjeta con fondo blanco y texto gris, y agrega un botón azul usando clases.</p>
+            <h2>2. La Jerarquía de Poder (Especificidad)</h2>
+            <p>¿Qué pasa si le dices a un elemento que sea AZUL con una clase, pero ROJO con un ID? ¿Quién gana?</p>
+            
+            <div class="battle-arena">
+                <div class="rule-card">
+                    <span class="score" style="color:#64748b">1 Punto</span>
+                    <strong>Etiqueta</strong><br>
+                    <code>div { color: gris }</code>
+                </div>
+                <div class="rule-card">
+                    <span class="score" style="color:#3b82f6">10 Puntos</span>
+                    <strong>Clase (.)</strong><br>
+                    <code>.caja { color: azul }</code>
+                </div>
+                <div class="rule-card">
+                    <span class="score" style="color:#ef4444">100 Puntos</span>
+                    <strong>ID (#)</strong><br>
+                    <code>#caja { color: rojo }</code>
+                </div>
+            </div>
+
+            <div style="margin-top:20px; text-align:center;">
+                <p>Resultado final:</p>
+                <div id="luchador" class="ganador battle-box" style="margin:0 auto;">
+                    Soy Rojo
+                </div>
+                <p style="font-size:0.8rem; color:#64748b;">
+                    *Este elemento tiene aplicados los tres colores al mismo tiempo, pero el ID (#) es más fuerte y gana la batalla.
+                </p>
+            </div>
+        </div>
+
+        <div class="section" style="background:#eff6ff; border-left:4px solid var(--primary); padding:15px;">
+            <h3>💡 Tip Profesional</h3>
+            <p>Evita usar <strong>ID (#)</strong> para dar estilos. Son demasiado poderosos y difíciles de sobrescribir después. Usa siempre <strong>Clases (.)</strong>, así tus estilos son reutilizables y fáciles de manejar.</p>
         </div>
 
         <div class="nav-links">
-            <a href="html-semantica.html">← Anterior: HTML semántico</a>
-            <a href="css-colores-tipografia.html">Siguiente: Colores y tipografía →</a>
+            <a href="html-semantica.html">← Anterior: HTML Semántico</a>
+            <a href="css-colores-tipografia.html">Siguiente: Colores y Tipografía →</a>
         </div>
     </div>
+
+    <script>
+        function huntElements() {
+            // 1. Obtener lo que escribe el usuario
+            let selector = document.getElementById('selector-input').value;
+            
+            // 2. Limpiar selección anterior
+            const targets = document.querySelectorAll('.target');
+            targets.forEach(el => el.classList.remove('selected'));
+
+            // 3. Si está vacío, no hacer nada
+            if (!selector) return;
+
+            // 4. Intentar seleccionar dentro del escenario
+            try {
+                // Usamos querySelectorAll como lo haría el navegador real
+                // Añadimos '#game-stage' para buscar SOLO dentro de la caja blanca
+                const matches = document.querySelectorAll('#game-stage ' + selector);
+                
+                // 5. Iluminar los encontrados
+                matches.forEach(el => el.classList.add('selected'));
+            } catch (error) {
+                // Si el usuario escribe algo inválido (ej: "div["), ignoramos el error
+            }
+        }
+    </script>
 </body>
 </html>
