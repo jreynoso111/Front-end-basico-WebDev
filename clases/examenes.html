@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exámenes de Repaso</title>
+    <style>
+        :root { --primary:#2563eb; --bg:#f8fafc; --card:#ffffff; --border:#e2e8f0; --text:#0f172a; --muted:#475569; }
+        * { box-sizing: border-box; }
+        body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; }
+        .card { max-width: 960px; margin:0 auto; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:26px; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
+        h1 { color:var(--primary); margin-top:0; }
+        p.lead { color:var(--muted); }
+        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
+        .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:12px; margin:18px 0; }
+        .pill { display:inline-block; padding:4px 10px; border-radius:999px; background:#e0f2fe; color:#075985; font-weight:700; font-size:0.85rem; }
+        .quiz-card { border:1px solid var(--border); border-radius:12px; padding:14px; background:#f8fafc; display:flex; flex-direction:column; gap:12px; }
+        .question { font-weight:700; }
+        label { display:block; margin:6px 0; color:var(--muted); }
+        button { align-self:flex-start; background:var(--primary); color:white; border:none; border-radius:10px; padding:8px 14px; font-weight:700; cursor:pointer; }
+        button:hover { opacity:0.92; }
+        .result { font-weight:700; color:#16a34a; margin-top:6px; }
+        .tips { background:#f1f5f9; border:1px dashed var(--border); padding:12px; border-radius:10px; color:var(--muted); }
+        .nav-links { display:flex; justify-content:space-between; margin-top:22px; }
+        .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="breadcrumb"><a href="../index.html">← Volver al mapa</a></div>
+        <h1>Exámenes de Repaso</h1>
+        <p class="lead">Pon a prueba lo aprendido en cada bloque con preguntas rápidas y retroalimentación inmediata.</p>
+
+        <div class="grid">
+            <div class="quiz-card" id="examen-html">
+                <div class="pill">HTML</div>
+                <div class="question">¿Qué etiqueta define el contenido visible de la página?</div>
+                <label><input type="radio" name="q-html" value="head"> &lt;head&gt;</label>
+                <label><input type="radio" name="q-html" value="body"> &lt;body&gt;</label>
+                <label><input type="radio" name="q-html" value="title"> &lt;title&gt;</label>
+                <button onclick="checkAnswer('q-html','body','res-html')">Evaluar</button>
+                <div class="result" id="res-html"></div>
+            </div>
+
+            <div class="quiz-card" id="examen-css">
+                <div class="pill">CSS</div>
+                <div class="question">¿Qué propiedad ajusta el espacio interno de un elemento?</div>
+                <label><input type="radio" name="q-css" value="margin"> margin</label>
+                <label><input type="radio" name="q-css" value="padding"> padding</label>
+                <label><input type="radio" name="q-css" value="border"> border</label>
+                <button onclick="checkAnswer('q-css','padding','res-css')">Evaluar</button>
+                <div class="result" id="res-css"></div>
+            </div>
+
+            <div class="quiz-card" id="examen-js">
+                <div class="pill">JavaScript</div>
+                <div class="question">¿Cómo seleccionas un elemento con id <code>hero</code>?</div>
+                <label><input type="radio" name="q-js" value="getElement"> document.getElementById('hero')</label>
+                <label><input type="radio" name="q-js" value="querySelector"> document.querySelector('.hero')</label>
+                <label><input type="radio" name="q-js" value="log"> console.log(hero)</label>
+                <button onclick="checkAnswer('q-js','getElement','res-js')">Evaluar</button>
+                <div class="result" id="res-js"></div>
+            </div>
+
+            <div class="quiz-card" id="examen-herramientas">
+                <div class="pill">Herramientas</div>
+                <div class="question">¿Qué comando crea un commit en Git?</div>
+                <label><input type="radio" name="q-tools" value="add"> git add .</label>
+                <label><input type="radio" name="q-tools" value="commit"> git commit -m "mensaje"</label>
+                <label><input type="radio" name="q-tools" value="init"> git init</label>
+                <button onclick="checkAnswer('q-tools','commit','res-tools')">Evaluar</button>
+                <div class="result" id="res-tools"></div>
+            </div>
+        </div>
+
+        <div class="tips">
+            Responde y valida cada pregunta. Si fallas, vuelve a la clase correspondiente y repasa los conceptos clave antes de intentar de nuevo.
+        </div>
+
+        <div class="nav-links">
+            <a href="herramientas-git.html">← Volver a Git Básico</a>
+            <a href="proyecto-final-landing.html">Ir a Proyecto Final →</a>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswer(group, correctValue, resultId) {
+            const selected = document.querySelector(`input[name="${group}"]:checked`);
+            const resultEl = document.getElementById(resultId);
+            if (!selected) {
+                resultEl.textContent = 'Selecciona una opción para evaluar.';
+                resultEl.style.color = '#f97316';
+                return;
+            }
+
+            if (selected.value === correctValue) {
+                resultEl.textContent = '¡Correcto! Continúa con el siguiente bloque.';
+                resultEl.style.color = '#16a34a';
+            } else {
+                resultEl.textContent = 'Revisa la clase y vuelve a intentarlo.';
+                resultEl.style.color = '#dc2626';
+            }
+        }
+    </script>
+</body>
+</html>
