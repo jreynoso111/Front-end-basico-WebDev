@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS: Diseño responsivo</title>
+    <style>
+        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
+        body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; line-height:1.6; }
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
+        h1 { color:var(--primary); margin-top:0; }
+        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
+        .section { margin-top:16px; }
+        ul { padding-left:22px; color:var(--muted); }
+        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+        .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="breadcrumb"><a href="../index.html">← Volver al programa</a></div>
+        <h1>Diseño responsivo</h1>
+        <p>Adapta tus layouts a distintos tamaños de pantalla con media queries.</p>
+
+        <div class="section">
+            <h3>Guía rápida</h3>
+            <ul>
+                <li>Define un breakpoint base (ej. 768px) y ajusta a móviles primero.</li>
+                <li>Usa unidades relativas (<code>rem</code>, <code>%</code>, <code>vw</code>) para tamaños fluidos.</li>
+                <li>Prueba en el inspector con diferentes dispositivos simulados.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>Ejercicio</h3>
+            <p>Convierte un layout de tres columnas en una sola columna debajo de 768px usando <code>@media</code>.</p>
+        </div>
+
+        <div class="nav-links">
+            <a href="css-flexbox.html">← Anterior: Flexbox</a>
+            <a href="js-variables.html">Siguiente: Variables en JavaScript →</a>
+        </div>
+    </div>
+</body>
+</html>

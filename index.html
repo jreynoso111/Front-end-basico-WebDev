@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Camino al Front-End Developer</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #0f172a;
+            --muted: #475569;
+            --border: #e2e8f0;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 24px 18px 48px;
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 { color: var(--primary); margin-bottom: 8px; }
+        p { color: var(--muted); }
+
+        .creator {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 1px solid #bfdbfe;
+            border-radius: 14px;
+            padding: 18px 20px;
+            margin-bottom: 22px;
+            box-shadow: 0 8px 18px rgba(37, 99, 235, 0.08);
+        }
+
+        .creator h3 {
+            margin: 0 0 12px;
+            color: #1d4ed8;
+        }
+
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .topic-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .topic-card h4 { margin: 0; color: var(--text); }
+
+        .topic-card ul {
+            margin: 0;
+            padding-left: 18px;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .topic-card a {
+            align-self: flex-start;
+            text-decoration: none;
+            color: #0ea5e9;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .progress-wrapper {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0 12px;
+        }
+
+        .progress-container {
+            background-color: #e2e8f0;
+            border-radius: 10px;
+            height: 20px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #2563eb, #1d4ed8);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .stats {
+            text-align: right;
+            font-weight: bold;
+            color: var(--muted);
+        }
+
+        .section {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+            margin-bottom: 18px;
+            border: 1px solid var(--border);
+        }
+
+        .section h2 {
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .lesson {
+            border-bottom: 1px solid var(--border);
+            padding: 10px 0;
+        }
+
+        .lesson:last-child { border-bottom: none; }
+
+        details {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 12px;
+            cursor: pointer;
+            transition: border 0.2s ease, background 0.2s ease;
+        }
+
+        details[open] { background: #eef2ff; border-color: #c7d2fe; }
+
+        summary {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            list-style: none;
+        }
+
+        summary::-webkit-details-marker { display: none; }
+
+        .lesson-title {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+        }
+
+        .lesson-title span { color: var(--muted); font-size: 0.95rem; }
+
+        .lesson-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .open-btn {
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: #fff;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+            transition: transform 0.1s ease, box-shadow 0.2s ease;
+        }
+
+        .open-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.28);
+        }
+
+        input[type="checkbox"] {
+            margin: 0;
+            transform: scale(1.15);
+            cursor: pointer;
+        }
+
+        label { cursor: pointer; font-weight: 600; }
+
+        input:checked + label { color: #16a34a; text-decoration: none; }
+
+        .pill {
+            background: #ecfeff;
+            color: #0891b2;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: 1px solid #bae6fd;
+        }
+
+        .lesson-body {
+            padding: 12px 8px 4px 36px;
+            color: var(--muted);
+            font-size: 0.96rem;
+        }
+
+        .cta {
+            display: inline-block;
+            margin-top: 6px;
+            text-decoration: none;
+            color: #0ea5e9;
+            font-weight: 700;
+        }
+
+        .cta:hover { text-decoration: underline; }
+
+        @media (max-width: 600px) {
+            body { padding: 18px 14px; }
+            summary { align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🚀 Ruta de Aprendizaje Front-End</h1>
+        <p>Marca las casillas a medida que domines cada tema y abre el contenido extendido de cada clase.</p>
+    </header>
+
+    <section class="creator">
+        <h3>Conecta rápidamente con los temas</h3>
+        <p>Usa este creador para saltar a cualquiera de los cuatro bloques principales y abrir la primera clase de inmediato.</p>
+        <div class="topic-grid">
+            <div class="topic-card">
+                <h4>HTML: La Estructura</h4>
+                <ul>
+                    <li>Documento, textos, enlaces</li>
+                    <li>Formularios y semántica</li>
+                </ul>
+                <a href="#html">Ir al bloque HTML</a>
+                <a href="clases/html-sintaxis-estructura.html">Abrir primera clase</a>
+            </div>
+            <div class="topic-card">
+                <h4>CSS: El Estilo</h4>
+                <ul>
+                    <li>Selectores, colores y tipografía</li>
+                    <li>Flexbox y diseño responsivo</li>
+                </ul>
+                <a href="#css">Ir al bloque CSS</a>
+                <a href="clases/css-selectores.html">Abrir primera clase</a>
+            </div>
+            <div class="topic-card">
+                <h4>JavaScript: La Lógica</h4>
+                <ul>
+                    <li>Variables y funciones</li>
+                    <li>DOM y eventos</li>
+                </ul>
+                <a href="#js">Ir al bloque JavaScript</a>
+                <a href="clases/js-variables.html">Abrir primera clase</a>
+            </div>
+            <div class="topic-card">
+                <h4>Herramientas & Práctica</h4>
+                <ul>
+                    <li>VS Code y Git básico</li>
+                    <li>Proyecto final</li>
+                </ul>
+                <a href="#tools">Ir al bloque de herramientas</a>
+                <a href="clases/herramientas-vscode.html">Abrir primera clase</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="progress-wrapper">
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="stats">Progreso: <span id="progress-text">0%</span></div>
+    </div>
+
+    <div class="section" id="html">
+        <h2>1. HTML (La Estructura)</h2>
+        <div class="lesson">
+            <details>
+                <summary>
+                    <div class="lesson-actions">
+                        <input type="checkbox" id="html1"><label for="html1">Sintaxis básica y estructura del documento (&lt;html&gt;, &lt;head&gt;, &lt;body&gt;)</label>
+                        <span class="pill">Inicio</span>
+                        <a class="open-btn" href="clases/html-sintaxis-estructura.html">Abrir clase</a>
+                    </div>
+                </summary>
+                <div class="lesson-body">
+                    Aprende cómo se arma un documento HTML válido y las etiquetas mínimas para que el navegador lo entienda.
+                    <div><a class="cta" href="clases/html-sintaxis-estructura.html">Ver contenido</a></div>
+                </div>
+            </details>
+        </div>
+        <div class="lesson">
+            <details>
+                <summary>
+                    <div class="lesson-actions">
+                        <input type="checkbox" id="html2"><label for="html2">Textos: Encabezados (h1-h6), Párrafos (p), Listas (ul, ol, li)</label>
+                        <span class="pill">Tipografía</span>
+                        <a class="open-btn" href="clases/html-textos-listas.html">Abrir clase</a>
+                    </div>
+                </summary>
+                <div class="lesson-body">
+                    Estructura textos jerárquicos, listas ordenadas y desordenadas para comunicar mejor tu contenido.
+                    <div><a class="cta" href="clases/html-textos-listas.html">Ver contenido</a></div>
+                </div>
+            </details>
+        </div>
+        <div class="lesson">
+            <details>
+                <summary>
+                    <div class="lesson-actions">
+                        <input type="checkbox" id="html3"><label for="html3">Enlaces (a) e Imágenes (img) con sus atributos</label>
+                        <span class="pill">Multimedia</span>
+                        <a class="open-btn" href="clases/html-enlaces-imagenes.html">Abrir clase</a>
+                    </div>
+                </summary>
+                <div class="lesson-body">
+                    Conecta páginas entre sí y muestra imágenes optimizadas cuidando accesibilidad y rutas.
+                    <div><a class="cta" href="clases/html-enlaces-imagenes.html">Ver contenido</a></div>
+                </div>
+            </details>
+        </div>
+        <div class="lesson">
+            <details>
+                <summary>
+                    <div class="lesson-actions">
+                        <input type="checkbox" id="html4"><label for="html4">Formularios básicos (input, label, button, form)</label>
+                        <span class="pill">Interacción</span>
+                        <a class="open-btn" href="clases/html-formularios.html">Abrir clase</a>
+                    </div>
+                </summary>
+                <div class="lesson-body">
+                    Construye formularios accesibles que envíen datos correctamente y ofrezcan una buena UX.
+                    <div><a class="cta" href="clases/html-formularios.html">Ver contenido</a></div>
+                </div>
+            </details>
+        </div>
+        <div class="lesson">
+            <details>
+                <summary>
+                    <div class="lesson-actions">
+                        <input type="checkbox" id="html5"><label for="html5">HTML Semántico (header, nav, main, section, footer)</label>
+                        <span class="pill">Buenas prácticas</span>
+                        <a class="open-btn" href="clases/html-semantica.html">Abrir clase</a>
+                    </div>
+                </summary>
+                <div class="lesson-body">
+                    Usa etiquetas semánticas para mejorar la accesibilidad y el SEO de cualquier sitio.
+                    <div><a class="cta" href="clases/html-semantica.html">Ver contenido</a></div>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <div class="section" id="css">
+        <h2>2. CSS (El Estilo)</h2>
+        <div class="lesson">
+            <details>
+                <summary>
+                    <div class="lesson-actions">
+                        <input type="checkbox" id="css1"><label for="css1">Sintaxis y Selectores (Clases vs ID)</label>
+                        <span class="pill">Selectores</span>
+                        <a class="open-btn" href="clases/css-selectores.html">Abrir clase</a>
+                    </div>
+                </summary>
+                <div class="lesson-body">
+                    Comprende cómo apuntar a elementos y cuándo usar clases o identificadores.
+                    <div><a class="cta" href="clases/css-selectores.html">Ver contenido</a></div>
+                </div>
+            </details>
+        </div>
+        <div class="lesson">
+            <details>
+                <summary>
+                    <div class="lesson-actions">
+                        <input type="checkbox" id="css2"><label for="css2">Colores, Fondos y Tipografía</label>
+                        <span class="pill">Diseño</span>
+                        <a class="open-btn" href="clases/css-colores-tipografia.html">Abrir clase</a>
+                    </div>
+                </summary>
+                <div class="lesson-body">
+                    Aplica paletas, fondos y tipografías que refuercen la identidad visual de tu proyecto.
+                    <div><a class="cta" href="clases/css-colores-tipografia.html">Ver contenido</a></div>
+                </div>
+            </details>
+        </div>
+        <div class="lesson">
+            <details>
+                <summary>
+                    <div class="lesson-actions">
+                        <input type="checkbox" id="css3"><label for="css3">El Modelo de Caja (Margin, Border, Padding)</label>
+                        <span class="pill">Layout</span>
+                        <a class="open-btn" href="clases/css-modelo-caja.html">Abrir clase</a>
+                    </div>
+                </summary>
+                <div class="lesson-body">
+                    Domina cómo se calculan los espacios y bordes para construir componentes limpios.
+                    <div><a class="cta" href="clases/css-modelo-caja.html">Ver contenido</a></div>
+                </div>
+            </details>
+        </div>
+        <div class="lesson">
+            <details>
+                <summary>
+                    <div class="lesson-actions">
+                        <input type="checkbox" id="css4"><label for="css4">Flexbox (Fundamental para alinear elementos)</label>
+                        <span class="pill">Distribución</span>
+                        <a class="open-btn" href="clases/css-flexbox.html">Abrir clase</a>
+                    </div>
+                </summary>
+                <div class="lesson-body">
+                    Aprende a distribuir y alinear elementos en cualquier dirección con Flexbox.
+                    <div><a class="cta" href="clases/css-flexbox.html">Ver contenido</a></div>
+                </div>
+            </details>
+        </div>
+        <div class="lesson">
+            <details>
+                <summary>
+                    <div class="lesson-actions">
+                        <input type="checkbox" id="css5"><label for="css5">Diseño Responsivo (Media Queries básico)</label>
+                        <span class="pill">Responsive</span>
+                        <a class="open-btn" href="clases/css-responsivo.html">Abrir clase</a>
+                    </div>
+                </summary>
+                <div class="lesson-body">
+                    Ajusta tus interfaces a móviles, tablets y escritorio con media queries efectivas.
+                    <div><a class="cta" href="clases/css-responsivo.html">Ver contenido</a></div>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <div class="section" id="js">
+        <h2>3. JavaScript (La Lógica)</h2>
+        <div class="lesson">
+            <details>
+                <summary>
+                    <div class="lesson-actions">
+                        <input type="checkbox" id="js1"><label for="js1">Variables y Tipos de Datos (String, Number, Boolean)</label>
+                        <span class="pill">Fundamentos</span>
+                        <a class="open-btn" href="clases/js-variables.html">Abrir clase</a>
+                    </div>
+                </summary>
+                <div class="lesson-body">
+                    Declara variables, diferencia tipos y entiende cómo guardan la información.
+                    <div><a class="cta" href="clases/js-variables.html">Ver contenido</a></div>
+                </div>
+            </details>
+        </div>
+        <div class="lesson">
+            <details>
+                <summary>
+                    <div class="lesson-actions">
+                        <input type="checkbox" id="js2"><label for="js2">Funciones y Condicionales (if/else)</label>
+                        <span class="pill">Lógica</span>
+                        <a class="open-btn" href="clases/js-funciones-condicionales.html">Abrir clase</a>
+                    </div>
+                </summary>
+                <div class="lesson-body">
+                    Encapsula lógica en funciones y toma decisiones con condicionales claras.
+                    <div><a class="cta" href="clases/js-funciones-condicionales.html">Ver contenido</a></div>
+                </div>
+            </details>
+        </div>
+        <div class="lesson">
+            <details>
+                <summary>
+                    <div class="lesson-actions">
+                        <input type="checkbox" id="js3"><label for="js3">DOM: Cómo seleccionar elementos HTML desde JS</label>
+                        <span class="pill">DOM</span>
+                        <a class="open-btn" href="clases/js-dom.html">Abrir clase</a>
+                    </div>
+                </summary>
+                <div class="lesson-body">
+                    Conecta JavaScript con la página seleccionando y modificando nodos del DOM.
+                    <div><a class="cta" href="clases/js-dom.html">Ver contenido</a></div>
+                </div>
+            </details>
+        </div>
+        <div class="lesson">
+            <details>
+                <summary>
+                    <div class="lesson-actions">
+                        <input type="checkbox" id="js4"><label for="js4">Eventos: Click, submit, change</label>
+                        <span class="pill">Interacción</span>
+                        <a class="open-btn" href="clases/js-eventos.html">Abrir clase</a>
+                    </div>
+                </summary>
+                <div class="lesson-body">
+                    Responde a las acciones del usuario con listeners y callbacks bien organizados.
+                    <div><a class="cta" href="clases/js-eventos.html">Ver contenido</a></div>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <div class="section" id="tools">
+        <h2>4. Herramientas & Práctica</h2>
+        <div class="lesson">
+            <details>
+                <summary>
+                    <div class="lesson-actions">
+                        <input type="checkbox" id="tool1"><label for="tool1">Editor de Código: VS Code (Instalación y extensiones)</label>
+                        <span class="pill">Setup</span>
+                        <a class="open-btn" href="clases/herramientas-vscode.html">Abrir clase</a>
+                    </div>
+                </summary>
+                <div class="lesson-body">
+                    Prepara tu entorno con VS Code, atajos y extensiones clave para front-end.
+                    <div><a class="cta" href="clases/herramientas-vscode.html">Ver contenido</a></div>
+                </div>
+            </details>
+        </div>
+        <div class="lesson">
+            <details>
+                <summary>
+                    <div class="lesson-actions">
+                        <input type="checkbox" id="tool2"><label for="tool2">Git Básico: Guardar versiones de tu código</label>
+                        <span class="pill">Control de versiones</span>
+                        <a class="open-btn" href="clases/herramientas-git.html">Abrir clase</a>
+                    </div>
+                </summary>
+                <div class="lesson-body">
+                    Aprende los comandos esenciales de Git para iniciar proyectos y compartirlos.
+                    <div><a class="cta" href="clases/herramientas-git.html">Ver contenido</a></div>
+                </div>
+            </details>
+        </div>
+        <div class="lesson">
+            <details>
+                <summary>
+                    <div class="lesson-actions">
+                        <input type="checkbox" id="tool3"><label for="tool3">Proyecto Final: Crear una Landing Page personal</label>
+                        <span class="pill">Proyecto</span>
+                        <a class="open-btn" href="clases/proyecto-final-landing.html">Abrir clase</a>
+                    </div>
+                </summary>
+                <div class="lesson-body">
+                    Integra todo lo aprendido construyendo una landing completa y compartible.
+                    <div><a class="cta" href="clases/proyecto-final-landing.html">Ver contenido</a></div>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <script>
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+
+        function updateProgress() {
+            const total = checkboxes.length;
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const percentage = Math.round((checked / total) * 100);
+
+            progressBar.style.width = percentage + '%';
+            progressText.innerText = percentage + '% completado';
+
+            saveState();
+        }
+
+        function saveState() {
+            checkboxes.forEach(box => {
+                localStorage.setItem(box.id, box.checked);
+            });
+        }
+
+        function loadState() {
+            checkboxes.forEach(box => {
+                const saved = localStorage.getItem(box.id);
+                if (saved === 'true') {
+                    box.checked = true;
+                }
+            });
+            updateProgress();
+        }
+
+        checkboxes.forEach(box => {
+            box.addEventListener('change', updateProgress);
+        });
+
+        loadState();
+    </script>
+</body>
+</html>
