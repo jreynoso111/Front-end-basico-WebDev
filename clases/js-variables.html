@@ -3,43 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JavaScript: Variables y tipos</title>
+    <title>JS: Variables y Tipos</title>
     <style>
-        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
+        /* --- ESTILOS BASE --- */
+        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; --code-bg: #1e293b; }
+        
         body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; line-height:1.6; }
-        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
-        h1 { color:var(--primary); margin-top:0; }
-        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
-        .section { margin-top:16px; }
-        ul { padding-left:22px; color:var(--muted); }
-        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+        
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:30px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
+        
+        h1 { color:var(--primary); margin-top:0; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+        h2 { font-size: 1.2rem; margin-top: 30px; color: #334155; }
+        
+        .breadcrumb a { text-decoration:none; color:#94a3b8; font-size: 0.9rem; font-weight:600; }
+        .breadcrumb a:hover { color: var(--primary); }
+
+        /* --- GENERADOR DE VARIABLES --- */
+        .var-generator {
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+            margin-top: 20px;
+        }
+
+        /* Línea de entrada de código */
+        .code-input-line {
+            display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+            background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        select, input {
+            padding: 10px; border: 2px solid #e2e8f0; border-radius: 6px; font-family: monospace; font-size: 1.1rem;
+        }
+        select { background: #e0f2fe; color: var(--primary); font-weight: bold; border-color: #bae6fd; }
+        input:focus { outline: none; border-color: var(--primary); }
+
+        /* VISUALIZACIÓN DE LA CAJA */
+        .box-visualization {
+            margin-top: 30px;
+            display: flex; gap: 20px; justify-content: center; align-items: flex-start;
+        }
+
+        /* La Caja en sí */
+        .variable-box {
+            width: 180px; height: 160px;
+            background: #f8fafc;
+            border: 4px solid #94a3b8;
+            border-radius: 10px;
+            position: relative;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* La Etiqueta (Nombre) */
+        .box-label {
+            position: absolute; top: -15px;
+            background: #334155; color: white;
+            padding: 4px 10px; border-radius: 4px;
+            font-family: monospace; font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* El Contenido (Valor) */
+        .box-content { font-size: 1.5rem; font-weight: bold; z-index: 2; text-align: center; word-break: break-all; padding: 5px;}
+
+        /* Indicador de Tipo */
+        .type-badge {
+            margin-top: 10px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;
+            background: #e2e8f0; padding: 3px 8px; border-radius: 10px; font-weight: bold;
+        }
+
+        /* Icono de Constante */
+        .lock-icon { position: absolute; bottom: 5px; right: 5px; font-size: 1.2rem; opacity: 0; transition: opacity 0.3s; }
+
+        /* Estilos por tipo de dato */
+        .is-string { border-color: #22c55e; background: #f0fdf4; color: #15803d; }
+        .is-string .type-badge { background: #bbf7d0; color: #166534; }
+        
+        .is-number { border-color: #f59e0b; background: #fffbeb; color: #b45309; }
+        .is-number .type-badge { background: #fde68a; color: #92400e; }
+        
+        .is-boolean { border-color: #6366f1; background: #eef2ff; color: #4338ca; }
+        .is-boolean .type-badge { background: #c7d2fe; color: #3730a3; }
+
+        /* CONSOLA */
+        .console-output {
+            margin-top: 20px; background: var(--code-bg); color: #d4d4d4; padding: 15px; border-radius: 8px; font-family: monospace;
+        }
+        .console-line { margin-bottom: 5px; }
+        .log-val.str { color: #bef264; }
+        .log-val.num { color: #fbbf24; }
+        .log-val.bool { color: #60a5fa; }
+
+        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:40px; padding-top: 20px; border-top: 1px solid var(--border); }
         .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
     </style>
 </head>
 <body>
     <div class="card">
         <div class="breadcrumb"><a href="../index.html">← Volver al programa</a></div>
-        <h1>Variables y tipos de datos</h1>
-        <p>Aprende a guardar y manipular información en JavaScript.</p>
+        
+        <h1>Variables y Tipos de Datos</h1>
+        <p>Una variable es una caja donde guardas información. JavaScript decide automáticamente qué tipo de información es según lo que guardes.</p>
 
         <div class="section">
-            <h3>Conceptos clave</h3>
-            <ul>
-                <li>Declara con <code>const</code> para valores que no cambian y <code>let</code> para los que sí.</li>
-                <li>Tipos básicos: <em>string</em>, <em>number</em>, <em>boolean</em>, <em>null</em>, <em>undefined</em>.</li>
-                <li>Usa <code>typeof</code> para inspeccionar el tipo de una variable.</li>
+            <h2>Creador de Variables</h2>
+            <p>Construye tu sentencia JavaScript y mira cómo se crea la caja.</p>
+
+            <div class="var-generator">
+                <div class="code-input-line">
+                    <select id="declInput" onchange="updateBox()">
+                        <option value="let">let (Caja abierta)</option>
+                        <option value="const">const (Caja cerrada)</option>
+                    </select>
+                    
+                    <input type="text" id="nameInput" placeholder="nombreVariable" value="miEdad" oninput="updateBox()">
+                    
+                    <span style="font-weight:bold; font-size:1.2rem;">=</span>
+                    
+                    <input type="text" id="valInput" placeholder="Valor..." value="25" oninput="updateBox()">
+                    
+                    <span style="font-weight:bold; font-size:1.2rem;">;</span>
+                </div>
+
+                <div class="box-visualization">
+                    <div id="theBox" class="variable-box is-number">
+                        <div id="boxLabel" class="box-label">miEdad</div>
+                        <div id="boxContent" class="box-content">25</div>
+                        <div id="typeBadge" class="type-badge">Number</div>
+                        <div id="lockIcon" class="lock-icon">🔒</div>
+                    </div>
+                </div>
+
+                <div class="console-output">
+                    <div class="console-line">> typeof <span id="logName">miEdad</span></div>
+                    <div class="console-line" style="color:#94a3b8">"<span id="logType">number</span>"</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Guía de Tipos</h3>
+            <ul style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; list-style:none; padding:0;">
+                <li style="background:#f0fdf4; border:1px solid #bbf7d0; padding:10px; border-radius:6px; color:#166534;">
+                    <strong>String (Texto):</strong><br> Siempre va entre comillas.<br> <code>"Hola"</code>
+                </li>
+                <li style="background:#fffbeb; border:1px solid #fde68a; padding:10px; border-radius:6px; color:#92400e;">
+                    <strong>Number (Número):</strong><br> Matemáticas, sin comillas.<br> <code>25</code> o <code>3.14</code>
+                </li>
+                <li style="background:#eef2ff; border:1px solid #c7d2fe; padding:10px; border-radius:6px; color:#3730a3;">
+                    <strong>Boolean (Lógica):</strong><br> Interruptor encendido/apagado.<br> <code>true</code> o <code>false</code>
+                </li>
+                <li style="background:#f1f5f9; border:1px solid #cbd5e1; padding:10px; border-radius:6px; color:#475569;">
+                    <strong>Undefined:</strong><br> Una caja creada pero vacía.
+                </li>
             </ul>
         </div>
 
-        <div class="section">
-            <h3>Mini práctica</h3>
-            <p>Crea variables con tu nombre, edad y si te gusta el front-end. Imprime una frase combinando los valores en la consola.</p>
-        </div>
-
         <div class="nav-links">
-            <a href="css-responsivo.html">← Anterior: Diseño responsivo</a>
-            <a href="js-funciones-condicionales.html">Siguiente: Funciones y condicionales →</a>
+            <a href="css-responsivo.html">← Anterior: CSS Responsivo</a>
+            <a href="js-funciones-condicionales.html">Siguiente: Funciones →</a>
         </div>
     </div>
+
+    <script>
+        function updateBox() {
+            // 1. Obtener valores
+            const decl = document.getElementById('declInput').value;
+            const name = document.getElementById('nameInput').value || 'variable';
+            let rawValue = document.getElementById('valInput').value;
+
+            // Elementos visuales
+            const box = document.getElementById('theBox');
+            const label = document.getElementById('boxLabel');
+            const content = document.getElementById('boxContent');
+            const badge = document.getElementById('typeBadge');
+            const lock = document.getElementById('lockIcon');
+            
+            // Logs
+            const logName = document.getElementById('logName');
+            const logType = document.getElementById('logType');
+
+            // 2. Detectar Tipo de Dato (Lógica simple)
+            let type = 'string';
+            let displayValue = rawValue;
+
+            if (rawValue === '') {
+                type = 'undefined';
+                displayValue = 'undefined';
+            } 
+            else if (!isNaN(rawValue) && rawValue.trim() !== '') {
+                type = 'number';
+            } 
+            else if (rawValue.toLowerCase() === 'true' || rawValue.toLowerCase() === 'false') {
+                type = 'boolean';
+                displayValue = rawValue.toLowerCase();
+            } 
+            else {
+                // Es un string
+                type = 'string';
+                displayValue = `"${rawValue}"`; // Agregamos comillas visuales
+            }
+
+            // 3. Actualizar Visuales
+            label.innerText = name;
+            content.innerText = displayValue;
+            badge.innerText = type;
+
+            // Resetear clases
+            box.className = 'variable-box'; // Borra las clases de colores
+            
+            // Aplicar color según tipo
+            if (type === 'number') box.classList.add('is-number');
+            else if (type === 'boolean') box.classList.add('is-boolean');
+            else if (type === 'string') box.classList.add('is-string');
+            else box.style.borderColor = '#94a3b8'; // Undefined gris
+
+            // Lógica de CONST (Candado)
+            if (decl === 'const') {
+                lock.style.opacity = '1';
+                // Si es const y no tiene valor, advertencia visual (opcional)
+            } else {
+                lock.style.opacity = '0';
+            }
+
+            // 4. Actualizar Consola Falsa
+            logName.innerText = name;
+            logType.innerText = type;
+        }
+
+        // Inicializar
+        updateBox();
+    </script>
 </body>
 </html>
