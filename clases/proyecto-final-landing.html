@@ -3,43 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyecto final: Landing page</title>
+    <title>Proyecto Final: Portfolio</title>
     <style>
-        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
+        /* --- ESTILOS BASE --- */
+        :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; --code-bg: #1e293b; }
+        
         body { font-family:'Segoe UI', Tahoma, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:22px; line-height:1.6; }
-        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
-        h1 { color:var(--primary); margin-top:0; }
-        .breadcrumb a { text-decoration:none; color:#0ea5e9; font-weight:700; }
-        .section { margin-top:16px; }
-        ul { padding-left:22px; color:var(--muted); }
-        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+        
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:30px; max-width:900px; margin:0 auto; box-shadow:0 8px 18px rgba(15,23,42,0.08); }
+        
+        h1 { color:var(--primary); margin-top:0; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+        h2 { font-size: 1.2rem; margin-top: 30px; color: #334155; }
+        
+        .breadcrumb a { text-decoration:none; color:#94a3b8; font-size: 0.9rem; font-weight:600; }
+        .breadcrumb a:hover { color: var(--primary); }
+
+        /* --- VISUALIZADOR DE MAQUETA --- */
+        .blueprint-container {
+            background: #e2e8f0;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .toggle-xray {
+            position: absolute; top: 20px; right: 20px;
+            background: #2563eb; color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 10;
+        }
+        .toggle-xray:hover { background: #1d4ed8; }
+
+        /* EL SITIO WEB FALSO (PREVIEW) */
+        .mock-site {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* Estilos del sitio falso */
+        .m-header { background: #1e293b; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .m-hero { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; padding: 40px 20px; text-align: center; }
+        .m-btn { background: white; color: #2563eb; padding: 5px 15px; border-radius: 4px; display: inline-block; margin-top: 10px; font-weight: bold; font-size: 0.8rem; }
+        
+        .m-services { display: flex; gap: 10px; padding: 20px; }
+        .m-card { flex: 1; background: #f1f5f9; padding: 15px; border-radius: 4px; text-align: center; font-size: 0.8rem; }
+        
+        .m-footer { background: #0f172a; color: #94a3b8; padding: 10px; text-align: center; font-size: 0.7rem; }
+
+        /* MODO RAYOS X (SEMÁNTICA) */
+        .xray-mode .m-header { border: 2px dashed #f472b6; position: relative; }
+        .xray-mode .m-header::after { content: "<header>"; position: absolute; top: 0; left: 0; background: #f472b6; color: black; font-size: 0.7rem; padding: 2px; }
+
+        .xray-mode .m-hero { border: 2px dashed #facc15; position: relative; }
+        .xray-mode .m-hero::after { content: "<section id='hero'>"; position: absolute; top: 0; left: 0; background: #facc15; color: black; font-size: 0.7rem; padding: 2px; }
+
+        .xray-mode .m-services { border: 2px dashed #4ade80; position: relative; }
+        .xray-mode .m-services::after { content: "<main> / <section>"; position: absolute; top: 0; left: 0; background: #4ade80; color: black; font-size: 0.7rem; padding: 2px; }
+
+        .xray-mode .m-footer { border: 2px dashed #a78bfa; position: relative; }
+        .xray-mode .m-footer::after { content: "<footer>"; position: absolute; top: -10px; left: 0; background: #a78bfa; color: black; font-size: 0.7rem; padding: 2px; }
+
+        /* STARTER CODE */
+        .code-starter {
+            background: var(--code-bg); color: #d4d4d4; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin-top: 20px;
+        }
+        .copy-hint { color: #64748b; font-size: 0.8rem; margin-top: 5px; text-align: right; display: block;}
+
+        .checklist { margin-top: 20px; background: #f0fdf4; padding: 20px; border-radius: 8px; border: 1px solid #bbf7d0; }
+        .check-item { display: flex; gap: 10px; margin-bottom: 8px; align-items: center; }
+
+        .nav-links { display:flex; justify-content:space-between; align-items:center; margin-top:40px; padding-top: 20px; border-top: 1px solid var(--border); }
         .nav-links a { text-decoration:none; color:#0ea5e9; font-weight:700; }
     </style>
 </head>
 <body>
     <div class="card">
         <div class="breadcrumb"><a href="../index.html">← Volver al programa</a></div>
-        <h1>Proyecto final: landing page personal</h1>
-        <p>Integra HTML, CSS y JavaScript construyendo una página de presentación.</p>
+        
+        <h1>👑 Proyecto Final: Tu Portafolio Web</h1>
+        <p>Vas a crear tu propia página de presentación. Será la prueba de que dominas HTML, CSS, JS y Git. ¡Manos a la obra!</p>
 
         <div class="section">
-            <h3>Requisitos mínimos</h3>
-            <ul>
-                <li>Estructura semántica con <code>header</code>, <code>main</code> y <code>footer</code>.</li>
-                <li>Hero con llamada a la acción, sección de servicios o habilidades y un formulario de contacto funcional.</li>
-                <li>Estilos responsive, uso de Flexbox y un pequeño script (ej. validación o interacción de UI).</li>
-            </ul>
+            <h2>1. El Plano Maestro (Tu objetivo)</h2>
+            <p>Así debería estructurarse tu web. <strong>Presiona el botón "Activar Rayos X"</strong> para ver qué etiquetas HTML debes usar en cada parte.</p>
+
+            <div class="blueprint-container">
+                <button class="toggle-xray" onclick="toggleXray()">👁️ Activar Rayos X</button>
+
+                <div class="mock-site" id="mockSite">
+                    <div class="m-header">
+                        <strong>MiNombre</strong>
+                        <span style="font-size:0.7rem">Inicio | Proyectos | Contacto</span>
+                    </div>
+
+                    <div class="m-hero">
+                        <h3>Desarrollador Web Front-End</h3>
+                        <p style="font-size:0.8rem; margin-bottom:10px;">Creo experiencias digitales modernas y accesibles.</p>
+                        <span class="m-btn">Ver mis trabajos</span>
+                    </div>
+
+                    <div class="m-services">
+                        <div class="m-card">HTML5</div>
+                        <div class="m-card">CSS3 / Flexbox</div>
+                        <div class="m-card">JavaScript</div>
+                    </div>
+
+                    <div class="m-footer">
+                        © 2023 Mi Portafolio - Hecho con ❤️
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="section">
-            <h3>Entrega</h3>
-            <p>Publica en GitHub Pages o Vercel y comparte el enlace. Incluye un README con instrucciones de instalación y vista previa.</p>
+            <h2>2. Requisitos para Aprobar</h2>
+            <div class="checklist">
+                <div class="check-item"><input type="checkbox"> <strong>HTML Semántico:</strong> Usar header, nav, main, section, footer.</div>
+                <div class="check-item"><input type="checkbox"> <strong>CSS Flexbox:</strong> El menú y las tarjetas de habilidades deben alinearse con Flexbox.</div>
+                <div class="check-item"><input type="checkbox"> <strong>JavaScript:</strong> Agregar un botón que cambie el tema (Claro/Oscuro) o un formulario que muestre una alerta.</div>
+                <div class="check-item"><input type="checkbox"> <strong>Git:</strong> Subir el código a GitHub (mínimo 3 commits).</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3. Tu Código Base (Starter Kit)</h2>
+            <p>No empieces con la hoja en blanco. Copia esto en tu <code>index.html</code> y empieza a editar.</p>
+            
+            <div class="code-starter">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Portafolio de [TU NOMBRE]&lt;/title&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;!-- 1. CABECERA --&gt;
+    &lt;header&gt;
+        &lt;nav&gt;
+            &lt;h2&gt;MiLogo&lt;/h2&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href="#inicio"&gt;Inicio&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#contacto"&gt;Contacto&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+        &lt;!-- 2. HERO (Portada) --&gt;
+        &lt;section id="inicio" class="hero"&gt;
+            &lt;h1&gt;Hola, soy [TU NOMBRE]&lt;/h1&gt;
+            &lt;p&gt;Desarrollador Web en formación&lt;/p&gt;
+            &lt;button id="btn-saludo"&gt;Saludar&lt;/button&gt;
+        &lt;/section&gt;
+
+        &lt;!-- 3. HABILIDADES --&gt;
+        &lt;section class="skills"&gt;
+            &lt;article&gt;HTML&lt;/article&gt;
+            &lt;article&gt;CSS&lt;/article&gt;
+            &lt;article&gt;JS&lt;/article&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;
+
+    &lt;!-- 4. PIE DE PÁGINA --&gt;
+    &lt;footer&gt;
+        &lt;p&gt;Creado durante mi curso de Front-End&lt;/p&gt;
+    &lt;/footer&gt;
+
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+            </div>
+            <span class="copy-hint">Copia este código en tu editor VS Code</span>
         </div>
 
         <div class="nav-links">
-            <a href="herramientas-git.html">← Anterior: Git básico</a>
-            <a href="../index.html">Volver al inicio del programa →</a>
+            <a href="git-basico.html">← Anterior: Git Básico</a>
+            <a href="../index.html" style="background:var(--primary); color:white; padding:5px 15px; border-radius:20px;">🏠 Volver al Mapa</a>
         </div>
     </div>
+
+    <script>
+        function toggleXray() {
+            const site = document.getElementById('mockSite');
+            site.classList.toggle('xray-mode');
+        }
+    </script>
 </body>
 </html>
