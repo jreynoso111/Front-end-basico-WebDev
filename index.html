@@ -74,6 +74,8 @@
             font-size: 0.95rem;
         }
 
+        .muted { color: var(--muted); }
+
         .topic-card a {
             align-self: flex-start;
             text-decoration: none;
@@ -171,6 +173,49 @@
         label { cursor: pointer; font-weight: 600; }
 
         input:checked + label { color: #16a34a; text-decoration: none; }
+
+        .lesson-actions {
+            margin-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .link-button {
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .link-button.secondary {
+            background: #e2e8f0;
+            color: #0f172a;
+            box-shadow: none;
+            border: 1px solid #cbd5e1;
+        }
+
+        .exam-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .exam-card {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
         .pill {
             background: #ecfeff;
@@ -274,6 +319,10 @@
                     <div><a class="cta" href="clases/html-sintaxis-estructura.html">Ver contenido</a></div>
                 </div>
             </details>
+            <div class="lesson-actions">
+                <a class="link-button" href="clases/html-sintaxis-estructura.html">Ir a la clase</a>
+                <a class="link-button secondary" href="clases/examenes.html#examen-html">Evaluar bloque HTML</a>
+            </div>
         </div>
         <div class="lesson">
             <details>
@@ -286,6 +335,10 @@
                     <div><a class="cta" href="clases/html-textos-listas.html">Ver contenido</a></div>
                 </div>
             </details>
+            <div class="lesson-actions">
+                <a class="link-button" href="clases/html-textos-listas.html">Ir a la clase</a>
+                <a class="link-button secondary" href="clases/examenes.html#examen-html">Evaluar bloque HTML</a>
+            </div>
         </div>
         <div class="lesson">
             <details>
@@ -298,6 +351,10 @@
                     <div><a class="cta" href="clases/html-enlaces-imagenes.html">Ver contenido</a></div>
                 </div>
             </details>
+            <div class="lesson-actions">
+                <a class="link-button" href="clases/html-enlaces-imagenes.html">Ir a la clase</a>
+                <a class="link-button secondary" href="clases/examenes.html#examen-html">Evaluar bloque HTML</a>
+            </div>
         </div>
         <div class="lesson">
             <details>
@@ -310,6 +367,10 @@
                     <div><a class="cta" href="clases/html-formularios.html">Ver contenido</a></div>
                 </div>
             </details>
+            <div class="lesson-actions">
+                <a class="link-button" href="clases/html-formularios.html">Ir a la clase</a>
+                <a class="link-button secondary" href="clases/examenes.html#examen-html">Evaluar bloque HTML</a>
+            </div>
         </div>
         <div class="lesson">
             <details>
@@ -322,6 +383,10 @@
                     <div><a class="cta" href="clases/html-semantica.html">Ver contenido</a></div>
                 </div>
             </details>
+            <div class="lesson-actions">
+                <a class="link-button" href="clases/html-semantica.html">Ir a la clase</a>
+                <a class="link-button secondary" href="clases/examenes.html#examen-html">Evaluar bloque HTML</a>
+            </div>
         </div>
     </div>
 
@@ -338,6 +403,10 @@
                     <div><a class="cta" href="clases/css-selectores.html">Ver contenido</a></div>
                 </div>
             </details>
+            <div class="lesson-actions">
+                <a class="link-button" href="clases/css-selectores.html">Ir a la clase</a>
+                <a class="link-button secondary" href="clases/examenes.html#examen-css">Evaluar bloque CSS</a>
+            </div>
         </div>
         <div class="lesson">
             <details>
@@ -350,6 +419,10 @@
                     <div><a class="cta" href="clases/css-colores-tipografia.html">Ver contenido</a></div>
                 </div>
             </details>
+            <div class="lesson-actions">
+                <a class="link-button" href="clases/css-colores-tipografia.html">Ir a la clase</a>
+                <a class="link-button secondary" href="clases/examenes.html#examen-css">Evaluar bloque CSS</a>
+            </div>
         </div>
         <div class="lesson">
             <details>
@@ -362,6 +435,10 @@
                     <div><a class="cta" href="clases/css-modelo-caja.html">Ver contenido</a></div>
                 </div>
             </details>
+            <div class="lesson-actions">
+                <a class="link-button" href="clases/css-modelo-caja.html">Ir a la clase</a>
+                <a class="link-button secondary" href="clases/examenes.html#examen-css">Evaluar bloque CSS</a>
+            </div>
         </div>
         <div class="lesson">
             <details>
@@ -374,6 +451,10 @@
                     <div><a class="cta" href="clases/css-flexbox.html">Ver contenido</a></div>
                 </div>
             </details>
+            <div class="lesson-actions">
+                <a class="link-button" href="clases/css-flexbox.html">Ir a la clase</a>
+                <a class="link-button secondary" href="clases/examenes.html#examen-css">Evaluar bloque CSS</a>
+            </div>
         </div>
         <div class="lesson">
             <details>
@@ -386,6 +467,10 @@
                     <div><a class="cta" href="clases/css-responsivo.html">Ver contenido</a></div>
                 </div>
             </details>
+            <div class="lesson-actions">
+                <a class="link-button" href="clases/css-responsivo.html">Ir a la clase</a>
+                <a class="link-button secondary" href="clases/examenes.html#examen-css">Evaluar bloque CSS</a>
+            </div>
         </div>
     </div>
 
@@ -402,6 +487,10 @@
                     <div><a class="cta" href="clases/js-variables.html">Ver contenido</a></div>
                 </div>
             </details>
+            <div class="lesson-actions">
+                <a class="link-button" href="clases/js-variables.html">Ir a la clase</a>
+                <a class="link-button secondary" href="clases/examenes.html#examen-js">Evaluar bloque JavaScript</a>
+            </div>
         </div>
         <div class="lesson">
             <details>
@@ -414,6 +503,10 @@
                     <div><a class="cta" href="clases/js-funciones-condicionales.html">Ver contenido</a></div>
                 </div>
             </details>
+            <div class="lesson-actions">
+                <a class="link-button" href="clases/js-funciones-condicionales.html">Ir a la clase</a>
+                <a class="link-button secondary" href="clases/examenes.html#examen-js">Evaluar bloque JavaScript</a>
+            </div>
         </div>
         <div class="lesson">
             <details>
@@ -426,6 +519,10 @@
                     <div><a class="cta" href="clases/js-dom.html">Ver contenido</a></div>
                 </div>
             </details>
+            <div class="lesson-actions">
+                <a class="link-button" href="clases/js-dom.html">Ir a la clase</a>
+                <a class="link-button secondary" href="clases/examenes.html#examen-js">Evaluar bloque JavaScript</a>
+            </div>
         </div>
         <div class="lesson">
             <details>
@@ -438,6 +535,10 @@
                     <div><a class="cta" href="clases/js-eventos.html">Ver contenido</a></div>
                 </div>
             </details>
+            <div class="lesson-actions">
+                <a class="link-button" href="clases/js-eventos.html">Ir a la clase</a>
+                <a class="link-button secondary" href="clases/examenes.html#examen-js">Evaluar bloque JavaScript</a>
+            </div>
         </div>
     </div>
 
@@ -454,6 +555,10 @@
                     <div><a class="cta" href="clases/herramientas-vscode.html">Ver contenido</a></div>
                 </div>
             </details>
+            <div class="lesson-actions">
+                <a class="link-button" href="clases/herramientas-vscode.html">Ir a la clase</a>
+                <a class="link-button secondary" href="clases/examenes.html#examen-herramientas">Evaluar bloque de herramientas</a>
+            </div>
         </div>
         <div class="lesson">
             <details>
@@ -466,6 +571,10 @@
                     <div><a class="cta" href="clases/herramientas-git.html">Ver contenido</a></div>
                 </div>
             </details>
+            <div class="lesson-actions">
+                <a class="link-button" href="clases/herramientas-git.html">Ir a la clase</a>
+                <a class="link-button secondary" href="clases/examenes.html#examen-herramientas">Evaluar bloque de herramientas</a>
+            </div>
         </div>
         <div class="lesson">
             <details>
@@ -478,6 +587,37 @@
                     <div><a class="cta" href="clases/proyecto-final-landing.html">Ver contenido</a></div>
                 </div>
             </details>
+            <div class="lesson-actions">
+                <a class="link-button" href="clases/proyecto-final-landing.html">Ir a la clase</a>
+                <a class="link-button secondary" href="clases/examenes.html#examen-herramientas">Evaluar bloque de herramientas</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="examenes">
+        <h2>Exámenes y repaso</h2>
+        <p>Evalúa tu avance después de cada bloque con preguntas rápidas. Si fallas, vuelve a la clase correspondiente y refuerza los conceptos.</p>
+        <div class="exam-grid">
+            <div class="exam-card">
+                <strong>HTML</strong>
+                <span class="muted">Valida sintaxis, enlaces e imágenes.</span>
+                <a class="link-button" href="clases/examenes.html#examen-html">Rendir examen HTML</a>
+            </div>
+            <div class="exam-card">
+                <strong>CSS</strong>
+                <span class="muted">Repasa selectores, colores y layout.</span>
+                <a class="link-button" href="clases/examenes.html#examen-css">Rendir examen CSS</a>
+            </div>
+            <div class="exam-card">
+                <strong>JavaScript</strong>
+                <span class="muted">Comprueba variables, funciones y eventos.</span>
+                <a class="link-button" href="clases/examenes.html#examen-js">Rendir examen JavaScript</a>
+            </div>
+            <div class="exam-card">
+                <strong>Herramientas</strong>
+                <span class="muted">Confirma tu manejo de VS Code y Git.</span>
+                <a class="link-button" href="clases/examenes.html#examen-herramientas">Rendir examen de herramientas</a>
+            </div>
         </div>
     </div>
 
